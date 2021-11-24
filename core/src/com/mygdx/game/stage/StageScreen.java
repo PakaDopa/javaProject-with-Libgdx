@@ -41,12 +41,17 @@ public class StageScreen extends BaseScreen {
     {
         Queue<EventNode> q = new LinkedList<EventNode>();
 
+
+        //스테이지 선언
+        //현재 이벤트칸에 이벤트 넣어주고,
+        //q에 넣어준다.
+
         EventNode rootNode = new EventNode(null);
         rootNode.currentEvent = openingStageEvent;
         rootNode.currentEvent.create();
         q.add(rootNode);
 
-        while(n != 0)
+        while(n != 0) //n은 그 스테이지의 갯수 10개 [20개라고하면 방이 20개가 있는거임.]
         {
             EventNode currentNode = q.poll();
             if(currentNode == null)
@@ -116,8 +121,9 @@ public class StageScreen extends BaseScreen {
         stage.act(dt);
         stage.draw();
 
-        eventTree.currentEvent.render(dt);
-
-
+        if(eventTree.currentEvent.render(dt))
+        {
+            System.out.println("next event!!!");
+        }
     }
 }

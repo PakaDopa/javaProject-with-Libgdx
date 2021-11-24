@@ -1,12 +1,16 @@
 package com.mygdx.game.event;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.game.command.CommandType;
 import com.mygdx.game.utils.Global;
 import com.rafaskoberg.gdx.typinglabel.TypingAdapter;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
@@ -19,47 +23,31 @@ public enum Event implements EventInterface, InputProcessor {
         public void create()
         {
             stage = new Stage(new FitViewport(Global.VIEW_WIDTH, Global.VIEW_HEIGHT));
-            state = EventState.TEXTING;
-            //인풋 프로시저 셋팅
-            String token =
-                    "{FASTER}하하하 스테이지에 찾아온 것을 환영하오.\n" +
-                    "이런 곳에는 잘 오질 않는데.. 무슨 볼 일이 있나보구려.\n" +
-                    "아차차,, 늙다리가 말이 많았구려...\n" +
-                    "어서 가던 길 가시게..\n" +
-                    "부디 무운을 비네... 조심하시게! \n" +
-                    "하하하 스테이지에 찾아온 것을 환영하오.\n" +
-                    "이런 곳에는 잘 오질 않는데.. 무슨 볼 일이 있나보구려.\n" +
-                    "아차차,, 늙다리가 말이 많았구려...\n" +
-                    "어서 가던 길 가시게..\n" +
-                    "부디 무운을 비네... 조심하시게! \n" +
-                    "하하하 스테이지에 찾아온 것을 환영하오.\n" +
-                    "이런 곳에는 잘 오질 않는데.. 무슨 볼 일이 있나보구려.\n" +
-                    "아차차,, 늙다리가 말이 많았구려...\n" +
-                    "어서 가던 길 가시게..\n" +
-                    "부디 무운을 비네... 조심하시게! \n" +
-                    "하하하 스테이지에 찾아온 것을 환영하오.\n" +
-                    "이런 곳에는 잘 오질 않는데.. 무슨 볼 일이 있나보구려.\n" +
-                    "아차차,, 늙다리가 말이 많았구려...\n" +
-                    "어서 가던 길 가시게..\n" +
-                    "부디 무운을 비네... 조심하시게! \n";
-            defaultCreate(token);
+            defaultCreate();
+
+            subEvents = new TextEvent[1];
+            String token_1 = "안녕\n" +
+                "여긴 던전의... {FASTER}입구야! \n" +
+                "{WAIT}{NORMAL}조심하도록 해... \n" +
+                "\n{SLOW}들어가겠니..? [/yes], [/no]  \n";
+            subEvents[0] = new TextEvent(this, CommandType.YES, token_1);
         }
         @Override
-        public void render(float dt)
+        public boolean render(float dt)
         {
-            //인풋받아야함
-            if(state == EventState.TEXTING_END)
+            TextEvent textEvent = subEvents[ind];
+            boolean result = textEvent.render(dt);
+            if(result && subEvents[ind].needCommandType != CommandType.NONE)
             {
-                state = EventState.INPUT;
-                textField.setText("");
-                textField.setVisible(true);
+                System.out.println("player MP + 100!!!!!");
+                return true;
             }
-
             stage.act(dt);
             stage.draw();
+            return false;
         }
     },
-    BURNING
+    BURNING //불이 덮쳤다. HP - 10!
     {
         //불길에 덮여서 화상을 입음.
         @Override
@@ -68,12 +56,12 @@ public enum Event implements EventInterface, InputProcessor {
 
         }
         @Override
-        public void render(float dt)
+        public boolean render(float dt)
         {
-
+            return false;
         }
     },
-    FIND_WATER
+    FIND_WATER //마나를 회복한다. MP + 10!
     {
         @Override
         public void create()
@@ -81,27 +69,17 @@ public enum Event implements EventInterface, InputProcessor {
 
         }
         @Override
-        public void render(float dt)
+        public boolean render(float dt)
         {
-
+            return false;
         }
     };
 
     @Override
-    public void defaultCreate(String token)
+    public void defaultCreate()
     {
-        text = new TypingLabel(token, Global.LABELSTYLE);
-        text.setTypingListener(new TypingAdapter()
-        {
-            @Override
-            public void end()
-            {
-                System.out.println("end line");
-                state = EventState.TEXTING_END;
-            }
-        });
-        ScrollPane textBox = new ScrollPane(text);
-        textBox.setFlickScroll(false);
+        textBox = new ScrollPane(null);
+        textBox.setFlickScroll(true);
         textBox.setPosition(10,45);
         textBox.setWidth(420);
         textBox.setHeight(265);
@@ -128,13 +106,13 @@ public enum Event implements EventInterface, InputProcessor {
     @Override
     public void controlMP(int value) {
     }
-
     @Override
-    public boolean keyUp(int keycode) {
+    public boolean keyDown(int keycode)
+    {
         return false;
     }
     @Override
-    public boolean keyDown(int keycode) {
+    public boolean keyUp(int keycode) {
         return false;
     }
     @Override
@@ -162,9 +140,13 @@ public enum Event implements EventInterface, InputProcessor {
         return false;
     }
 
-    protected Stage stage;
-    protected EventState state;
 
+    protected Stage stage;
+
+    protected TextEvent[] subEvents;
+    protected int ind = 0;
+    protected String log = "";
+    protected ScrollPane textBox;
     protected TextField textField;
-    protected TypingLabel text;
+
 }

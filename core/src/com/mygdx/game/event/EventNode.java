@@ -1,7 +1,5 @@
 package com.mygdx.game.event;
 
-import com.mygdx.game.utils.Pair;
-
 public class EventNode {
     public Event currentEvent;
     public EventNode parentNode;

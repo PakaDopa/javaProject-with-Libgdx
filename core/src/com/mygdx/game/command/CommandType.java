@@ -1,16 +1,21 @@
 package com.mygdx.game.command;
 
 public enum CommandType {
-    MIX_UP(0), //이지 선다
-    ENCOUNTER(1);//마주치다
+    //==Error==
+    NONE,
+    WRONG,
 
-    private final int value;
-    CommandType(int value)
-    {
-        this.value = value;
-    }
-    public int getValue()
-    {
-        return value;
-    }
+    //==Selection==
+    YES,
+    NO,
+
+    //==Info Command==
+    INFO_ALL,
+    INFO_INVENTORY,
+    INFO_SKILL,
+
+    //==Map==
+    MOVE_BACK,
+    MOVE_TO_FIRST,
+    MOVE_TO_SECOND;
 }

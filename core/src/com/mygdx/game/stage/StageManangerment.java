@@ -17,7 +17,7 @@ public class StageManangerment {
     public void addingStage(Game game, List<Pair<Integer, Event>> events)
     {
         StageScreen stage = new StageScreen(game);
-        stage.createEventList(events);
+        stage.createEventList(events); //이벤트 랜덤 리스트 생성
         //test code
         stage.makeRandomTree(Event.STAGE_ROOT,30, 12);
         stageList.add(stage);
