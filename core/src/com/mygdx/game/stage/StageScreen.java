@@ -2,6 +2,7 @@ package com.mygdx.game.stage;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,6 +12,10 @@ import com.mygdx.game.base.BaseActor;
 import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.event.Event;
 import com.mygdx.game.event.EventNode;
+import com.mygdx.game.event.state.EventFlowState;
+import com.mygdx.game.event.state.EventState;
+import com.mygdx.game.textbox.TextBox;
+import com.mygdx.game.textbox.TextInputBox;
 import com.mygdx.game.utils.GameUtils;
 import com.mygdx.game.utils.Global;
 import com.mygdx.game.utils.Pair;
@@ -27,6 +32,10 @@ public class StageScreen extends BaseScreen {
     List<Pair<Integer, Event>> eventList = new ArrayList<>();
     List<Event> shuffleEventList = new ArrayList<>();
     EventNode eventTree;
+
+    //test//
+    boolean buttonTest = false;
+    EventFlowState flowState = EventFlowState.ING;
 
     //!=====!
     public StageScreen(Game game) {
@@ -111,6 +120,9 @@ public class StageScreen extends BaseScreen {
         backgroundActor.setTexture(new Texture(Global.BACKIMGPATH));
         backgroundActor.setPosition(0,0);
         stage.addActor(backgroundActor);
+
+        InputMultiplexer im = new InputMultiplexer(TextBox.instance.stage, TextInputBox.instance.stage);
+        Gdx.input.setInputProcessor(im);
     }
     @Override
     public void render(float dt) {
@@ -118,12 +130,40 @@ public class StageScreen extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        //1. Start Event
+        boolean eventing = false;
+        switch (flowState)
+        {
+            case ING:
+                eventing = eventTree.currentEvent.update(dt);
+                if(eventing)
+                    flowState = EventFlowState.END;
+                break;
+            case END:
+                if(TextBox.instance.getTextState() == EventState.TEXTING_END)
+                {
+                    System.out.println("next event!!!");
+                    TextInputBox.instance.setDefault();
+                    TextBox.instance.setDefault();
+
+                    flowState = EventFlowState.NEXT;
+                }
+                break;
+            case NEXT:
+                //debbuging
+                
+                System.out.println(eventTree.leftNode + "  " + eventTree.rightNode);
+                break;
+        }
+        //2. Select Next Event
+        //...
+
+        //draw background
         stage.act(dt);
         stage.draw();
 
-        if(eventTree.currentEvent.render(dt))
-        {
-            System.out.println("next event!!!");
-        }
+        //draw and act TextInputBox, TextBox
+        TextInputBox.instance.render(dt);
+        TextBox.instance.render(dt);
     }
 }

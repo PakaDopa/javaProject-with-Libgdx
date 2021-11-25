@@ -1,49 +1,52 @@
 package com.mygdx.game.event;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.command.CommandType;
-import com.mygdx.game.utils.Global;
-import com.rafaskoberg.gdx.typinglabel.TypingAdapter;
-import com.rafaskoberg.gdx.typinglabel.TypingLabel;
+import com.mygdx.game.textbox.TextBox;
 
-public enum Event implements EventInterface, InputProcessor {
+public enum Event implements EventInterface {
 
     STAGE_ROOT
     {
         @Override
         public void create()
         {
-            stage = new Stage(new FitViewport(Global.VIEW_WIDTH, Global.VIEW_HEIGHT));
-            defaultCreate();
+            subEvents = new EventProcedure[1];
+            String token_1 = "{SPEED=0.55}안녕 거기 누구 있니..?\n" +
+                "난 이 좆같은 프로젝트에 갇혀 버렸어..\n" +
+                "{WAIT}좆.같..은.. 코딩 지옥에 말야..\n" +
+                "\n제발.. 날 {SICK}죽여주겠니??..{ENDSICK} [/yes], [/no]  \n";
 
-            subEvents = new TextEvent[1];
-            String token_1 = "안녕\n" +
-                "여긴 던전의... {FASTER}입구야! \n" +
-                "{WAIT}{NORMAL}조심하도록 해... \n" +
-                "\n{SLOW}들어가겠니..? [/yes], [/no]  \n";
-            subEvents[0] = new TextEvent(this, CommandType.YES, token_1);
+            subEvents[0] = new EventProcedure(this, token_1, CommandType.YES, CommandType.NO);
         }
         @Override
-        public boolean render(float dt)
+        public boolean update(float dt)
         {
-            TextEvent textEvent = subEvents[ind];
-            boolean result = textEvent.render(dt);
-            if(result && subEvents[ind].needCommandType != CommandType.NONE)
+            EventProcedure eventProcedure = subEvents[ind];
+            CommandType result = eventProcedure.render(dt);
+            if(result == CommandType.NONE)
+                ind = MathUtils.clamp(ind + 1, ind, subEvents.length - 1);
+            //Result
+            if(ind == subEvents.length - 1)
             {
-                System.out.println("player MP + 100!!!!!");
-                return true;
+                if(result == CommandType.YES)
+                {
+                    String token = "{SLOWER}그래!! 고마워.. 나를 죽여줘서.. \n" +
+                            "그디어 코딩 지옥에서 벗어나게 되었네.. \n" +
+                            "흐하하ㅏㅏ.. 이제 잘 수 있게 되었어. \n" +
+                            "개 좆같은.. 프로젝트같으니라고.. 너도 해보면 알거야. \n" +
+                            "빠빠이..! \n\n";
+                    TextBox.instance.setText(token);
+                    return true;
+                }
+                else if(result == CommandType.NO)
+                {
+                    String token = "{SLOWER}{WAIT}........\n" +
+                            "치... 너무해.. 그럼 이 프젝을 계속해야해..\n\n";
+                    TextBox.instance.setText(token);
+                    return true;
+                }
             }
-            stage.act(dt);
-            stage.draw();
             return false;
         }
     },
@@ -56,7 +59,7 @@ public enum Event implements EventInterface, InputProcessor {
 
         }
         @Override
-        public boolean render(float dt)
+        public boolean update(float dt)
         {
             return false;
         }
@@ -69,84 +72,26 @@ public enum Event implements EventInterface, InputProcessor {
 
         }
         @Override
-        public boolean render(float dt)
+        public boolean update(float dt)
+        {
+            return false;
+        }
+    },
+    SELECT_MAP
+    {
+        @Override
+        public void create()
+        {
+
+        }
+        @Override
+        public boolean update(float dt)
         {
             return false;
         }
     };
 
-    @Override
-    public void defaultCreate()
-    {
-        textBox = new ScrollPane(null);
-        textBox.setFlickScroll(true);
-        textBox.setPosition(10,45);
-        textBox.setWidth(420);
-        textBox.setHeight(265);
-
-        stage.addActor(textBox);
-
-        //텍스트 박스 셋팅
-        textField = new TextField("", Global.TEXTFIELDSTYLE);
-        textField.setWidth(Global.TEXTBOX_WIDTH);
-        textField.setPosition(
-                Global.INPUT_TEXTBOX_X,
-                Global.INPUT_TEXTBOX_Y
-        );
-        textField.setVisible(false);
-        stage.setKeyboardFocus(textField);
-        stage.addActor(textField);
-
-        InputMultiplexer im = new InputMultiplexer(this, stage);
-        Gdx.input.setInputProcessor(im);
-    }
-    @Override
-    public void controlHP(int value) {
-    }
-    @Override
-    public void controlMP(int value) {
-    }
-    @Override
-    public boolean keyDown(int keycode)
-    {
-        return false;
-    }
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-    @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
-    }
-
-
-    protected Stage stage;
-
-    protected TextEvent[] subEvents;
+    protected EventProcedure[] subEvents;
     protected int ind = 0;
-    protected String log = "";
-    protected ScrollPane textBox;
-    protected TextField textField;
 
 }

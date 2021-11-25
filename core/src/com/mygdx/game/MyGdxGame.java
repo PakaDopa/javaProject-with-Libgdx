@@ -9,7 +9,7 @@ import com.mygdx.game.utils.Pair;
 import java.util.*;
 
 public class MyGdxGame extends Game {
-	
+
 	@Override
 	public void create ()
 	{
@@ -21,7 +21,6 @@ public class MyGdxGame extends Game {
 		List<Pair<Integer, Event>> events = new ArrayList<>();
 		events.add(new Pair(50, Event.BURNING));
 		events.add(new Pair(50, Event.FIND_WATER));
-
 
 		//stage[1]
 
