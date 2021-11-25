@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.base.BaseActor;
 import com.mygdx.game.base.BaseScreen;
@@ -27,19 +26,20 @@ import java.util.Queue;
 
 public class StageScreen extends BaseScreen {
     Stage stage;
-    TextField textField;
 
     List<Pair<Integer, Event>> eventList = new ArrayList<>();
     List<Event> shuffleEventList = new ArrayList<>();
     EventNode eventTree;
 
     //test//
-    boolean buttonTest = false;
     EventFlowState flowState = EventFlowState.ING;
-
+    Event mapSelector;
     //!=====!
     public StageScreen(Game game) {
         super(game);
+
+        mapSelector = Event.SELECT_MAP;
+        mapSelector.create();
     }
     public void createEventList(List<Pair<Integer, Event>> events)
     {
@@ -151,8 +151,11 @@ public class StageScreen extends BaseScreen {
                 break;
             case NEXT:
                 //debbuging
-                
-                System.out.println(eventTree.leftNode + "  " + eventTree.rightNode);
+                eventing = mapSelector.update(dt);
+                if(eventing)
+                {
+
+                }
                 break;
         }
         //2. Select Next Event
