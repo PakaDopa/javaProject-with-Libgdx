@@ -25,6 +25,7 @@ public class TextInputBox implements InputProcessor {
                 Global.INPUT_TEXTBOX_Y
         );
         textField.setVisible(false);
+        textField.setClipboard(null);
 
         stage.setKeyboardFocus(textField);
         stage.addActor(textField);

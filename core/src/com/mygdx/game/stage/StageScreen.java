@@ -10,101 +10,23 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.base.BaseActor;
 import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.event.Event;
-import com.mygdx.game.event.EventNode;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.textbox.TextInputBox;
-import com.mygdx.game.utils.GameUtils;
 import com.mygdx.game.utils.Global;
 import com.mygdx.game.utils.Pair;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class StageScreen extends BaseScreen {
     Stage stage;
 
-    List<Pair<Integer, Event>> eventList = new ArrayList<>();
-    List<Event> shuffleEventList = new ArrayList<>();
-    EventNode eventTree;
-
-    Event mapSelector;
     //!=====!
     public StageScreen(Game game) {
         super(game);
-
-        mapSelector = Event.SELECT_MAP;
-        mapSelector.create();
     }
-        public void createEventList(List<Pair<Integer, Event>> events)
+    public void createEventList(List<Pair<Integer, Event>> events)
     {
-        eventList.addAll(events);
-        shuffleEventList = GameUtils.makeShuffleArray(eventList);
-    }
-    public void makeRandomTree(Event openingStageEvent, int percentNodeCreate, int n)
-    {
-        Queue<EventNode> q = new LinkedList<EventNode>();
-
-
-        //스테이지 선언
-        //현재 이벤트칸에 이벤트 넣어주고,
-        //q에 넣어준다.
-
-        EventNode rootNode = new EventNode(null);
-        rootNode.currentEvent = openingStageEvent;
-        rootNode.currentEvent.create();
-        q.add(rootNode);
-
-        while(n != 0) //n은 그 스테이지의 갯수 10개 [20개라고하면 방이 20개가 있는거임.]
-        {
-            EventNode currentNode = q.poll();
-            if(currentNode == null)
-            {
-                System.out.println("STAGE init Error {makeRandomTree Func} \n Exit Func");
-                break;
-            }
-            EventNode leftNode = currentNode.leftNode;
-            EventNode rightNode = currentNode.rightNode;
-
-            //왼쪽 노드 생성에 성공 했을 때
-            boolean isLeftNodeCreate = GameUtils.calPercent(percentNodeCreate);
-            //오른쪽 노드 생성에 성공 했을 때
-            boolean isRightNodeCreate = GameUtils.calPercent(percentNodeCreate);
-
-            if(isLeftNodeCreate && leftNode == null)
-            {
-                //create leftNode
-                leftNode = new EventNode(currentNode);
-                leftNode.currentEvent = GameUtils.selectEvent(shuffleEventList);
-                //init event data
-                leftNode.currentEvent.create();
-                //link
-                currentNode.leftNode = leftNode;
-                //add queue
-                q.add(leftNode);
-                n--;
-            }
-            if(isRightNodeCreate && rightNode == null)
-            {
-                //create rightNode
-                rightNode = new EventNode(currentNode);
-                rightNode.currentEvent = GameUtils.selectEvent(shuffleEventList);
-                rightNode.currentEvent.create();
-                //link
-                currentNode.rightNode = rightNode;
-                //add queue
-                q.add(rightNode);
-                n--;
-            }
-            if(!isLeftNodeCreate && !isRightNodeCreate)
-            {
-                //만약 둘 다 못 넣었을 경우에, 해당 트리를 재시작한다.
-                q.add(currentNode);
-            }
-        }
-        q.clear();
-        eventTree = rootNode;
+        //eventList.addAll(events);
+        //shuffleEventList = GameUtils.makeShuffleArray(eventList);
     }
     //!=====!
 
@@ -126,9 +48,8 @@ public class StageScreen extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        boolean eventing = true;
-        if(eventing)
-            eventing = eventTree.currentEvent.update(dt);
+
+        //boolean eventing = eventTree.currentEvent.update(dt);
 
 
         //draw background

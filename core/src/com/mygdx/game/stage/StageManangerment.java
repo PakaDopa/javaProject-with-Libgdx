@@ -19,7 +19,7 @@ public class StageManangerment {
         StageScreen stage = new StageScreen(game);
         stage.createEventList(events); //이벤트 랜덤 리스트 생성
         //test code
-        stage.makeRandomTree(Event.STAGE_ROOT,30, 12);
+        //stage.makeRandomTree(Event.STAGE_ROOT,30, 12);
         stageList.add(stage);
     }
 }

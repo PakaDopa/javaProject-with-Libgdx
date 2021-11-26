@@ -45,4 +45,69 @@ public class TestScript extends BaseScreen {
         TextBox.instance.render(dt);
     }
 }
+
+public void makeRandomTree(Event openingStageEvent, int percentNodeCreate, int n)
+    {
+        Queue<EventNode> q = new LinkedList<EventNode>();
+
+
+        //스테이지 선언
+        //현재 이벤트칸에 이벤트 넣어주고,
+        //q에 넣어준다.
+
+        EventNode rootNode = new EventNode(null);
+        rootNode.currentEvent = openingStageEvent;
+        rootNode.currentEvent.create();
+        q.add(rootNode);
+
+        while(n != 0) //n은 그 스테이지의 갯수 10개 [20개라고하면 방이 20개가 있는거임.]
+        {
+            EventNode currentNode = q.poll();
+            if(currentNode == null)
+            {
+                System.out.println("STAGE init Error {makeRandomTree Func} \n Exit Func");
+                break;
+            }
+            EventNode leftNode = currentNode.leftNode;
+            EventNode rightNode = currentNode.rightNode;
+
+            //왼쪽 노드 생성에 성공 했을 때
+            boolean isLeftNodeCreate = GameUtils.calPercent(percentNodeCreate);
+            //오른쪽 노드 생성에 성공 했을 때
+            boolean isRightNodeCreate = GameUtils.calPercent(percentNodeCreate);
+
+            if(isLeftNodeCreate && leftNode == null)
+            {
+                //create leftNode
+                leftNode = new EventNode(currentNode);
+                leftNode.currentEvent = GameUtils.selectEvent(shuffleEventList);
+                //init event data
+                leftNode.currentEvent.create();
+                //link
+                currentNode.leftNode = leftNode;
+                //add queue
+                q.add(leftNode);
+                n--;
+            }
+            if(isRightNodeCreate && rightNode == null)
+            {
+                //create rightNode
+                rightNode = new EventNode(currentNode);
+                rightNode.currentEvent = GameUtils.selectEvent(shuffleEventList);
+                rightNode.currentEvent.create();
+                //link
+                currentNode.rightNode = rightNode;
+                //add queue
+                q.add(rightNode);
+                n--;
+            }
+            if(!isLeftNodeCreate && !isRightNodeCreate)
+            {
+                //만약 둘 다 못 넣었을 경우에, 해당 트리를 재시작한다.
+                q.add(currentNode);
+            }
+        }
+        q.clear();
+        eventTree = rootNode;
+    }
 */

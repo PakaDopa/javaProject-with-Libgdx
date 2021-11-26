@@ -30,6 +30,11 @@ public class Global {
     public static LabelStyle LABELSTYLE;
     public static TextFieldStyle TEXTFIELDSTYLE;
 
+    //PLAYER STATUS
+    public static int PLAYER_MAX_HP = 100;
+    public static int PLAYER_MAX_MP = 50;
+    public static int PLAYER_DEFAULT_DAMAGE = 10;
+
     public static void SETTING()
     {
         //setting global font
