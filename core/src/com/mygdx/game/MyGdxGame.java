@@ -23,10 +23,11 @@ public class MyGdxGame extends Game {
 		events.add(new Pair(50, Event.FIND_WATER));
 
 		//stage[1]
-
 		StageManangerment.instance.addingStage(this, events);
 
 		StageScreen firstStage = StageManangerment.instance.stageList.get(0);
+		//TestScript test = new TestScript(this);
 		setScreen(firstStage);
+		//setScreen(test);
 	}
 }

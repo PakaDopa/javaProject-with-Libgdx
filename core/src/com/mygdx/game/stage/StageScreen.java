@@ -11,8 +11,6 @@ import com.mygdx.game.base.BaseActor;
 import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.event.Event;
 import com.mygdx.game.event.EventNode;
-import com.mygdx.game.event.state.EventFlowState;
-import com.mygdx.game.event.state.EventState;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.textbox.TextInputBox;
 import com.mygdx.game.utils.GameUtils;
@@ -31,8 +29,6 @@ public class StageScreen extends BaseScreen {
     List<Event> shuffleEventList = new ArrayList<>();
     EventNode eventTree;
 
-    //test//
-    EventFlowState flowState = EventFlowState.ING;
     Event mapSelector;
     //!=====!
     public StageScreen(Game game) {
@@ -41,7 +37,7 @@ public class StageScreen extends BaseScreen {
         mapSelector = Event.SELECT_MAP;
         mapSelector.create();
     }
-    public void createEventList(List<Pair<Integer, Event>> events)
+        public void createEventList(List<Pair<Integer, Event>> events)
     {
         eventList.addAll(events);
         shuffleEventList = GameUtils.makeShuffleArray(eventList);
@@ -130,36 +126,10 @@ public class StageScreen extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //1. Start Event
-        boolean eventing = false;
-        switch (flowState)
-        {
-            case ING:
-                eventing = eventTree.currentEvent.update(dt);
-                if(eventing)
-                    flowState = EventFlowState.END;
-                break;
-            case END:
-                if(TextBox.instance.getTextState() == EventState.TEXTING_END)
-                {
-                    System.out.println("next event!!!");
-                    TextInputBox.instance.setDefault();
-                    TextBox.instance.setDefault();
+        boolean eventing = true;
+        if(eventing)
+            eventing = eventTree.currentEvent.update(dt);
 
-                    flowState = EventFlowState.NEXT;
-                }
-                break;
-            case NEXT:
-                //debbuging
-                eventing = mapSelector.update(dt);
-                if(eventing)
-                {
-
-                }
-                break;
-        }
-        //2. Select Next Event
-        //...
 
         //draw background
         stage.act(dt);

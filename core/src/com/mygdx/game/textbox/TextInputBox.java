@@ -29,8 +29,8 @@ public class TextInputBox implements InputProcessor {
         stage.setKeyboardFocus(textField);
         stage.addActor(textField);
 
-        //InputMultiplexer im = new InputMultiplexer(stage);
-        //Gdx.input.setInputProcessor(im);
+        InputMultiplexer im = new InputMultiplexer(stage);
+        Gdx.input.setInputProcessor(im);
     }
     public void setText(String token)
     {

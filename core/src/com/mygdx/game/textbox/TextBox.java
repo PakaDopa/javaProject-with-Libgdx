@@ -1,10 +1,11 @@
 package com.mygdx.game.textbox;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.utils.StringBuilder;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.event.state.EventState;
+import com.mygdx.game.textbox.state.PrintState;
 import com.mygdx.game.utils.Global;
 import com.rafaskoberg.gdx.typinglabel.TypingAdapter;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
@@ -12,65 +13,74 @@ import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 public class TextBox {
     public Stage stage;
 
-    protected EventState state;
+    protected String buffer = "";
     protected TypingLabel text;
+    protected Label log;
     protected ScrollPane textBox;
-    protected String log;
+    protected PrintState state;
+
     public static TextBox instance = new TextBox();
-    private void createTypingLabel()
+    private void initTypingLabel()
     {
+        if(text != null) {
+            for (int i = 0; i < stage.getActors().items.length; i++) {
+                if (text == stage.getActors().items[i]) {
+                    stage.getActors().items[i].remove();
+                }
+            }
+        }
         text = new TypingLabel("", Global.LABELSTYLE);
+        text.setPosition(22,50);
         text.setTypingListener(new TypingAdapter() {
             @Override
             public void end() {
-                state = EventState.TEXTING_END;
+                setPrintState(PrintState.TEXTING_END);
             }
         });
-        textBox.setActor(text);
+
+        stage.addActor(text);
     }
     private TextBox() {
-        stage = new Stage(new FitViewport(Global.VIEW_WIDTH, Global.VIEW_HEIGHT));
 
-        text = new TypingLabel("", Global.LABELSTYLE);
-        text.setTypingListener(new TypingAdapter() {
-            @Override
-            public void end() {
-                state = EventState.TEXTING_END;
-            }
-        });
-        textBox = new ScrollPane(text);
+        stage = new Stage(new FitViewport(Global.VIEW_WIDTH, Global.VIEW_HEIGHT));
+        log = new Label("", Global.LABELSTYLE);
+        initTypingLabel();
+
+        textBox = new ScrollPane(log);
         textBox.setFlickScroll(true);
-        textBox.setPosition(10,45);
+        textBox.setPosition(15,80);
         textBox.setWidth(420);
-        textBox.setHeight(265);
+        textBox.setHeight(225);
 
         stage.addActor(textBox);
+        stage.addActor(text);
     }
+    private void setPrintState(PrintState state) {this.state = state;}
     public void setText(String token)
     {
-        createTypingLabel();
+        setPrintState(PrintState.TEXTING);
+        token += "\n";
+
+        initTypingLabel();
+
         text.setText(token);
-        log = text.getText().toString();
+        log.setText(buffer);
+        buffer += token;
     }
-    public void setTextState(EventState state)
+    public void setDirect(String token)
     {
-        this.state = state;
+        setPrintState(PrintState.TEXTING);
+
+        token += "\n";
+        buffer += token;
+        text.setText("");
+        TextInputBox.instance.setText("");
+        log.setText(buffer);
     }
-    public void setDefault()
-    {
-        setTextState(EventState.TEXTING_START);
-    }
-    public EventState getTextState()
-    {
-        return state;
-    }
+    public boolean isEndPrinting() {return state == PrintState.TEXTING_END;}
     public void render(float dt)
     {
         stage.draw();
         stage.act(dt);
     }
-
-
-
-
 }
