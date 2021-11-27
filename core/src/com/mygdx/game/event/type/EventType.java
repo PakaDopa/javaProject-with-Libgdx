@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.game.command.CommandManangement;
 import com.mygdx.game.command.CommandType;
-import com.mygdx.game.event.LineMaker;
-import com.mygdx.game.player.Player;
-import com.mygdx.game.player.PlayerStatus;
+import com.mygdx.game.event.EventNode;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.textbox.TextInputBox;
 
@@ -14,21 +12,41 @@ public enum EventType implements EventTypeInterface{
     PRINTING("PRINTING")
     {
         @Override
-        public EventType update(LineMaker line) {
-            TextBox.instance.setText(line.token);
-            return DONE;
+        public EventType update(EventNode currentNode) {
+            if(!isOneTime) {
+                TextBox.instance.setText(currentNode.token);
+                isOneTime = true;
+            }
+
+            if(TextBox.instance.isEndPrinting())
+                return DONE_LEFT;
+            else
+                return DONE_YET;
+        }
+    },
+    END_PRINTING("END_PRINTING")
+    {
+        @Override
+        public EventType update(EventNode currentNode) {
+            if(!isOneTime) {
+                TextBox.instance.setText(currentNode.token);
+                isOneTime = true;
+            }
+            if(TextBox.instance.isEndPrinting())
+                return DONE_END;
+            else
+                return DONE_YET;
         }
     },
     SELECT("SELECT")
     {
-        boolean createSetting = false;
         @Override
-        public EventType update(LineMaker line) {
-            if(!createSetting)
+        public EventType update(EventNode currentNode) {
+            if(!isOneTime)
             {
                 TextInputBox.instance.setVisible(true);
-                TextBox.instance.setDirect(line.token);
-                createSetting = true;
+                TextBox.instance.setDirect(currentNode.token);
+                isOneTime = true;
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)
                     && TextBox.instance.isEndPrinting())
@@ -37,17 +55,13 @@ public enum EventType implements EventTypeInterface{
                 CommandType parserType = CommandManangement.instance.parsingCommandType(token);
                 TextBox.instance.setDirect(token);
 
-                if(parserType == line.needCommandType[0])
+                if(parserType == CommandType.YES)
                 {
-                    //결과를 얻을 수 있음.
-                    //return new EventTypeResult();
-                    return RESULT;
+                    return DONE_LEFT;
                 }
-                if(parserType == line.needCommandType[1])
+                if(parserType == CommandType.NO)
                 {
-                    //결과를 얻을 수 있음.
-                    //return new EventResult();
-                    return DONE;
+                    return DONE_RIGHT;
                 }
                 TextBox.instance.setDirect("SYSTEM: 정확한 명령어를 입력해주세요.");
             }
@@ -57,41 +71,56 @@ public enum EventType implements EventTypeInterface{
     BATTLE("BATTLE")
     {
         @Override
-        public EventType update(LineMaker line) {
+        public EventType update(EventNode currentNode) {
             return null;
         }
     },
     RESULT("RESULT")
     {
-        boolean isOneTime = false;
         @Override
-        public EventType update(LineMaker line)
+        public EventType update(EventNode currentNode)
         {
-            if(!isOneTime) {
-                for (int i = 0; i < line.result.getItemList().size(); i++) {
-
-                }
-                for (int i = 0; i < line.result.getStatusList().size(); i++) {
-                    PlayerStatus status = line.result.getStatusList().get(i).getX();
-                    float value = line.result.getStatusList().get(i).getY();
-
-                    Player.instance.setStatus(status.getInd(), value);
-
-                }
+            if(!isOneTime)
+            {
                 isOneTime = true;
+                TextBox.instance.setDirect(currentNode.token);
+                currentNode.result.applyReward();
             }
-            return DONE;
+            return DONE_LEFT;
         }
     },
-    DONE("DONE")
+    DONE_LEFT("DONE_LEFT")
     {
         @Override
-        public EventType update(LineMaker line) {
+        public EventType update(EventNode currentNode) {
+            return DONE_LEFT;
+        }
+    },
+    DONE_RIGHT("DONE_RIGHT")
+    {
+        @Override
+        public EventType update(EventNode currentNode) {
+            return DONE_RIGHT;
+        }
+    },
+    DONE_END("DONE_END")
+    {
+        @Override
+        public EventType update(EventNode currentNode) {
+            return this;
+        }
+    },
+    DONE_YET("DONE_YET") {
+        @Override
+        public EventType update(EventNode currentNode) {
             return this;
         }
     };
 
+    protected boolean isOneTime = false;
     private final String name;
     EventType(String name) {this.name = name;}
     public String getName() {return name;}
+    public void setIsOneTime(boolean isOneTime) {this.isOneTime = isOneTime;}
+    public boolean getIsOneTime(boolean isOneTime) {return this.isOneTime;}
 }

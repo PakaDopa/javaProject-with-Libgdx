@@ -20,14 +20,15 @@ public class Inventory extends Component{
         equipItem[ItemType.WEAPON.getValue()] = null;
         equipItem[ItemType.ARMOR.getValue()] = null;
     }
-    public boolean addItem(BaseItem dropItem)
+    public void addItem(BaseItem dropItem)
     {
         if(!inventory.containsKey(dropItem.getName()))
         {
             inventory.put(dropItem.getName(), dropItem);
-            return true;
+            TextBox.instance.setDirect("--------");
+            TextBox.instance.setDirect("    " + dropItem.getName() +"을(를) 획득했습니다!");
+            TextBox.instance.setDirect("--------");
         }
-        return false;
     }
     public boolean removeItem(BaseItem dropItem)
     {

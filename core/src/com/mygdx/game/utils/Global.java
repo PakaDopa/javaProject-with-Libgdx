@@ -31,9 +31,11 @@ public class Global {
     public static TextFieldStyle TEXTFIELDSTYLE;
 
     //PLAYER STATUS
-    public static int PLAYER_MAX_HP = 100;
-    public static int PLAYER_MAX_MP = 50;
-    public static int PLAYER_DEFAULT_DAMAGE = 10;
+    public static float PLAYER_MAX_HP = 100.0f;
+    public static float PLAYER_MAX_MP = 50.0f;
+    public static float PLAYER_DEFENSE = 5.0f;
+    public static float PLAYER_DEFAULT_DAMAGE = 10.0f;
+    public static float PLAYER_COMMAND_DELAY = 1.0f;
 
     public static void SETTING()
     {

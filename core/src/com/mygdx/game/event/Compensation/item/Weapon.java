@@ -16,13 +16,13 @@ public abstract class Weapon extends BaseItem{
 
     @Override
     public void unequipItem() {
-        Player.instance.setStatus(PlayerStatus.DAMAGE.getInd(), -damage);
-        Player.instance.setStatus(PlayerStatus.COMMAND_DELAY.getInd(), -plusCommandDelay);
+        Player.instance.setStatus(PlayerStatus.DAMAGE.getKey(), -damage);
+        Player.instance.setStatus(PlayerStatus.COMMAND_DELAY.getKey(), -plusCommandDelay);
     }
     @Override
     public void equipItem() {
-        Player.instance.setStatus(PlayerStatus.DAMAGE.getInd(), damage);
-        Player.instance.setStatus(PlayerStatus.DAMAGE.getInd(), plusCommandDelay);
+        Player.instance.setStatus(PlayerStatus.DAMAGE.getKey(), damage);
+        Player.instance.setStatus(PlayerStatus.DAMAGE.getKey(), plusCommandDelay);
     }
     @Override
     public String showItemInfo() {

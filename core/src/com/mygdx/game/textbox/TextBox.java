@@ -58,11 +58,20 @@ public class TextBox {
     private void setPrintState(PrintState state) {this.state = state;}
     public void setText(String token)
     {
+        //아래 연출바에 텍스트가 TypingLabel처럼 나오게 됨.
+        //State Setting
         setPrintState(PrintState.TEXTING);
         token += "\n";
 
+        //Init
         initTypingLabel();
 
+        //logic
+        /*
+        * 1. 아래 연출바에 현재 값 token으로 셋팅해준다.
+        * 2. 이전에 올아와있던 버퍼를 log로 셋팅해준다.
+        * 3. 버퍼에 지금 연출 바에 올려진 token을 더해준다.
+        * */
         text.setText(token);
         log.setText(buffer);
         buffer += token;
@@ -70,8 +79,15 @@ public class TextBox {
     public void setDirect(String token)
     {
         setPrintState(PrintState.TEXTING);
-
         token += "\n";
+
+        //logic
+        /*
+        * 1. 버퍼에 바로 token을 더해줌
+        * 2. 연출 타이핑 라벨은 "" 처리해줌.
+        * 3. 텍스트 박스도 "" 처리해줌
+        * 4. log에 바로 뿌러줌.
+        * */
         buffer += token;
         text.setText("");
         TextInputBox.instance.setText("");

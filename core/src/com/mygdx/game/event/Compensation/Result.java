@@ -10,29 +10,27 @@ import java.util.List;
 
 public class Result {
 
-    List<Pair<PlayerStatus, Float>> statusList;
-    List<BaseItem> itemList;
+    Pair<PlayerStatus, Float> rewardStatus;
+    BaseItem rewardItem;
+    //BaseSkill skillList;
 
-    public Result()
+    public Result(Pair<PlayerStatus, Float> element)
     {
-        statusList = new ArrayList<>();
-        itemList = new ArrayList<>();
+        rewardStatus = element;
     }
-
-    public void add(Pair<PlayerStatus, Float> element)
+    public Result(BaseItem item)
     {
-        statusList.add(element);
+        rewardItem = item;
     }
-    public void add(BaseItem item)
+    public void applyReward()
     {
-        itemList.add(item);
-    }
-    public List<Pair<PlayerStatus, Float>> getStatusList()
-    {
-        return statusList;
-    }
-    public List<BaseItem> getItemList()
-    {
-        return itemList;
+        if(rewardStatus != null)
+        {
+            Player.instance.setStatus(rewardStatus.getX().getKey(), rewardStatus.getY());
+        }
+        else if(rewardItem != null)
+        {
+            Player.instance.getInven().addItem(rewardItem);
+        }
     }
 }

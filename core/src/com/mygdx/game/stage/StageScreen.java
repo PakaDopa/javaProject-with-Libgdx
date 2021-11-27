@@ -19,6 +19,7 @@ import java.util.List;
 public class StageScreen extends BaseScreen {
     Stage stage;
 
+    Event event;
     //!=====!
     public StageScreen(Game game) {
         super(game);
@@ -41,6 +42,9 @@ public class StageScreen extends BaseScreen {
 
         InputMultiplexer im = new InputMultiplexer(TextBox.instance.stage, TextInputBox.instance.stage);
         Gdx.input.setInputProcessor(im);
+
+        event = Event.STAGE_ROOT;
+        event.create();
     }
     @Override
     public void render(float dt) {
@@ -50,7 +54,7 @@ public class StageScreen extends BaseScreen {
 
 
         //boolean eventing = eventTree.currentEvent.update(dt);
-
+        Event.STAGE_ROOT.update(dt);
 
         //draw background
         stage.act(dt);

@@ -1,7 +1,6 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.mygdx.game.event.Event;
-import com.mygdx.game.stage.StageManangerment;
 import com.mygdx.game.stage.StageScreen;
 import com.mygdx.game.utils.Global;
 import com.mygdx.game.utils.Pair;
@@ -22,12 +21,10 @@ public class MyGdxGame extends Game {
 		//events.add(new Pair(50, Event.BURNING));
 		//events.add(new Pair(50, Event.FIND_WATER));
 
-		//stage[1]
-		StageManangerment.instance.addingStage(this, events);
+		//StageScreen firstStage = StageManangerment.instance.stageList.get(0);
+		setScreen(new StageScreen(this));
 
-		StageScreen firstStage = StageManangerment.instance.stageList.get(0);
 		//TestScript test = new TestScript(this);
-		setScreen(firstStage);
 		//setScreen(test);
 	}
 }

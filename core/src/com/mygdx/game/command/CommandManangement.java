@@ -1,7 +1,5 @@
 package com.mygdx.game.command;
 
-import com.mygdx.game.stage.StageManangerment;
-
 import java.util.HashMap;
 import java.util.Map;
 

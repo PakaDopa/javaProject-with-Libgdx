@@ -1,7 +1,7 @@
 package com.mygdx.game.event.type;
 
-import com.mygdx.game.event.LineMaker;
+import com.mygdx.game.event.EventNode;
 
 public interface EventTypeInterface {
-    public EventType update(LineMaker line);
+    public EventType update(EventNode currentNode);
 }

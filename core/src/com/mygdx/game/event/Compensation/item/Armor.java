@@ -12,12 +12,12 @@ public abstract class Armor extends BaseItem{
     }
     @Override
     public void unequipItem() {
-        Player.instance.setStatus(PlayerStatus.DEFENSE.getInd(), -armor);
+        Player.instance.setStatus(PlayerStatus.DEFENSE.getKey(), -armor);
     }
 
     @Override
     public void equipItem() {
-        Player.instance.setStatus(PlayerStatus.DEFENSE.getInd(), armor);
+        Player.instance.setStatus(PlayerStatus.DEFENSE.getKey(), armor);
     }
 
     @Override
