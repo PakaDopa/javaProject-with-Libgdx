@@ -18,11 +18,11 @@ public class MyGdxGame extends Game {
 		//이벤트 리스트
 		//Waring: event percent는 총 합 100이 되도록 하는게 좋다. [QA 쉬워짐]
 		List<Pair<Integer, Event>> events = new ArrayList<>();
-		//events.add(new Pair(50, Event.BURNING));
-		//events.add(new Pair(50, Event.FIND_WATER));
+		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_SWORD));
+		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_FIRE));
 
 		//StageScreen firstStage = StageManangerment.instance.stageList.get(0);
-		setScreen(new StageScreen(this));
+		setScreen(new StageScreen(this, events));
 
 		//TestScript test = new TestScript(this);
 		//setScreen(test);

@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 public class Global {
-
+    //MAP SETTING
+    public static final int MAP_CREATE_PERCENT = 60;
+    //VIEW SETTING
     public static final String BACKIMGPATH = "Background/StageScreen.png";
 
     public static final int VIEW_WIDTH = 460;
@@ -23,6 +25,7 @@ public class Global {
     public static final int INPUT_TEXTBOX_X = 25;
     public static final int INPUT_TEXTBOX_Y = 22;
 
+    //FONT SETTING
     public static BitmapFont FONT;
     public static final String FONTPATH_FNT = "Font/gameFont.fnt";
     public static final String FONTPATH_PNG = "Font/gameFont.png";

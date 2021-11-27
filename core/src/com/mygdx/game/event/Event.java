@@ -7,6 +7,8 @@ import com.mygdx.game.player.PlayerStatus;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.utils.Pair;
 
+import java.util.Random;
+
 public enum Event implements EventInterface {
 
     STAGE_ROOT(1)
@@ -14,46 +16,48 @@ public enum Event implements EventInterface {
         @Override
         public void create()
         {
-            currentNode = new EventNode("{FASTER}???:흠.. 못보던 사람인데? 어디 사람이지..", EventType.PRINTING); //root Node
-            EventNode node1 = new EventNode("???:그대는 무슨 일을 하는 사람인가?..", EventType.PRINTING);
-            EventNode node2 = new EventNode("???:위험한 곳이니 조심하는 것이 좋을 걸세..", EventType.PRINTING);
-            EventNode node3 = new EventNode("???:안쪽으로 들어가는건 권하지 않네만", EventType.PRINTING);
-            EventNode node4 = new EventNode("???:왜냐니!! 당연히 위험하기 때문이지", EventType.PRINTING);
-            EventNode node5 = new EventNode("???:..그래서 들어가겠는가?", EventType.PRINTING);
-            EventNode node6 = new EventNode("System: '/yes' or '/no'", EventType.SELECT);
+            currentNode = new EventNode("던전의 스산한 기분이 들까말까", EventType.PRINTING); //root Node
+            EventNode node1 = new EventNode("던전에 들어가시겠습니까?", EventType.PRINTING); //root Node
+            EventNode node2 = new EventNode("System: '/yes' or '/no'", EventType.SELECT);
 
-            EventNode node7 = new EventNode("아차차 뜬금없지만 칼을 받으시게..", EventType.RESULT, new Result(ItemFactory.getItem("Sword")));
-            EventNode node9 = new EventNode("...돌아가게!", EventType.END_PRINTING);
-            EventNode node8 = new EventNode("좋아! 무운을 빌도록하지..!!", EventType.PRINTING);
-            EventNode node10 = new EventNode("System: 스텟을 얻었습니다.", EventType.RESULT, new Result(new Pair(PlayerStatus.DAMAGE, 10.0f)));
-            EventNode node11 = new EventNode("System: 던전으로 진입합니다..", EventType.END_PRINTING);
+            EventNode node_yes = new EventNode("System: 던전에 기쁜 마음으로 들어갑니다.", EventType.END_PRINTING);
+            EventNode node_no = new EventNode("System: ...그래도 들어가야해요!", EventType.END_PRINTING);
 
             currentNode.link(node1);
             node1.link(node2);
-            node2.link(node3);
-            node3.link(node4);
-            node4.link(node5);
-            node5.link(node6);
-            node6.link(node8, node7);
-            node8.link(node10);
-            node10.link(node11);
-            node7.link(node9);
-
+            node2.link(node_yes, node_no);
         }
     },
-    FIND_FIRE(1)
+    FIND_BOX_TYPE_GET_FIRE(1)
     {
         @Override
         public void create() {
-            currentNode = new EventNode("", EventType.PRINTING); //root Node
-            EventNode node1 = new EventNode("???:그대는 무슨 일을 하는 사람인가?..", EventType.PRINTING);
-            EventNode node2 = new EventNode("???:위험한 곳이니 조심하는 것이 좋을 걸세..", EventType.PRINTING);
-            EventNode node3 = new EventNode("???:안쪽으로 들어가는건 권하지 않네만", EventType.PRINTING);
-            EventNode node4 = new EventNode("???:왜냐니!! 당연히 위험하기 때문이지", EventType.PRINTING);
-            EventNode node5 = new EventNode("???:..그래서 들어가겠는가?", EventType.PRINTING);
-            EventNode node6 = new EventNode("System: '/yes' or '/no'", EventType.SELECT);
+            Random random = new Random();
+
+            currentNode = new EventNode("..어쩐지 불길한 분위기를 뿜어내는 상자가 보인다..", EventType.PRINTING); //root Node
+            EventNode node1 = new EventNode("...열어볼까?", EventType.PRINTING); //root Node
+            EventNode node2 = new EventNode("System: '/yes' or '/no'", EventType.SELECT);
+
+            EventNode node_yes = new EventNode("System: 상자에서 불길이 치솟아 데미지를 입었습니다.", EventType.RESULT,
+                    new Result(new Pair<PlayerStatus, Float>(PlayerStatus.HP, (float)random.nextInt(25))));
+            EventNode node_no = new EventNode("System: 지나칩니다.", EventType.END_PRINTING);
         }
     },
+    FIND_BOX_TYPE_GET_SWORD(1)
+            {
+                @Override
+                public void create() {
+                    Random random = new Random();
+
+                    currentNode = new EventNode("..어쩐지 불길한 분위기를 뿜어내는 상자가 보인다..", EventType.PRINTING); //root Node
+                    EventNode node1 = new EventNode("...열어볼까?", EventType.PRINTING); //root Node
+                    EventNode node2 = new EventNode("System: '/yes' or '/no'", EventType.SELECT);
+
+                    EventNode node_yes = new EventNode("System: 상자에서 아이템을 찾았습니다!", EventType.RESULT,
+                            new Result(ItemFactory.getItem("Sword")));
+                    EventNode node_no = new EventNode("System: 지나칩니다.", EventType.END_PRINTING);
+                }
+            },
     FIND_WATER(1) {
         @Override
         public void create() {

@@ -1,5 +1,8 @@
 package com.mygdx.game.utils;
 
+
+import com.mygdx.game.player.PlayerStatus;
+
 public class Pair <K, V>{
     private K key;
     private V value;

@@ -1,10 +1,9 @@
 package com.mygdx.game.utils;
 
 import com.mygdx.game.event.Event;
+import com.mygdx.game.stage.StageNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameUtils {
     public static List<Event> makeShuffleArray(List<Pair<Integer, Event>> eventList)
@@ -50,5 +49,44 @@ public class GameUtils {
         Random random = new Random();
         int value = random.nextInt(eventList.size());
         return eventList.get(value);
+    }
+    public static StageNode getStageRootTree(List<Event> eventList, int stageNum)
+    {
+        //시작 이벤트 셋팅
+        StageNode rootNode = new StageNode(null);
+        rootNode.setEvent(Event.STAGE_ROOT);
+
+        Queue<StageNode> q = new LinkedList<StageNode>();
+        q.add(rootNode);
+
+        while(stageNum > 0)
+        {
+            StageNode currentNode = q.poll();
+            if(currentNode == null)
+                continue;
+            boolean isCreateLeft = calPercent(Global.MAP_CREATE_PERCENT);
+            boolean isCreateRight = calPercent(Global.MAP_CREATE_PERCENT);
+
+            if(isCreateLeft && currentNode.leftNode == null)
+            {
+                StageNode newNode = new StageNode(currentNode);
+                newNode.setEvent(selectEvent(eventList));
+                currentNode.leftNode = newNode;
+                q.add(newNode);
+                stageNum--;
+            }
+            if(isCreateRight && currentNode.rightNode == null)
+            {
+                StageNode newNode = new StageNode(currentNode);
+                newNode.setEvent(selectEvent(eventList));
+                currentNode.rightNode = newNode;
+                q.add(newNode);
+                stageNum--;
+            }
+
+            if(!isCreateLeft && !isCreateRight)
+                q.add(currentNode); //재시도
+        }
+        return rootNode;
     }
 }

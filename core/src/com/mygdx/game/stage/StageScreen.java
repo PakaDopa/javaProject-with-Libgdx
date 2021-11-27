@@ -12,24 +12,33 @@ import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.event.Event;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.textbox.TextInputBox;
+import com.mygdx.game.utils.GameUtils;
 import com.mygdx.game.utils.Global;
 import com.mygdx.game.utils.Pair;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class StageScreen extends BaseScreen {
     Stage stage;
-
     Event event;
-    //!=====!
-    public StageScreen(Game game) {
+    StageNode stageNode;
+    StageState stageState;
+
+    public StageScreen(Game game, List<Pair<Integer, Event>> events) {
         super(game);
+        create(events);
     }
-    public void createEventList(List<Pair<Integer, Event>> events)
+
+    public void create(List<Pair<Integer, Event>> events)
     {
-        //eventList.addAll(events);
-        //shuffleEventList = GameUtils.makeShuffleArray(eventList);
+        stageState = StageState.INIT;
+
+        List<Event> randomEventList = new ArrayList<>();
+        randomEventList = GameUtils.makeShuffleArray(events);
+
+        stageNode = GameUtils.getStageRootTree(randomEventList, 10);
     }
-    //!=====!
 
     @Override
     public void create() {
@@ -52,13 +61,11 @@ public class StageScreen extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-        //boolean eventing = eventTree.currentEvent.update(dt);
-        Event.STAGE_ROOT.update(dt);
-
         //draw background
         stage.act(dt);
         stage.draw();
+
+        stageState = stageState.update(stageNode, dt);
 
         //draw and act TextInputBox, TextBox
         TextInputBox.instance.render(dt);

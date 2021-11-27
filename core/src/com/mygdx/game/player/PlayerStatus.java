@@ -1,6 +1,8 @@
 package com.mygdx.game.player;
 
 public enum PlayerStatus {
+    MAXHP("최대 체력"),
+    MAXMP("최대 마나"),
     HP("체력"),
     MP("마나"),
     DEFENSE("방어력"),
