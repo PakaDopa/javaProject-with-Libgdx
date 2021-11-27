@@ -31,8 +31,8 @@ public abstract class Armor extends BaseItem{
 
 class OldShield extends Armor
 {
-    public OldShield(String name) {
-        super(name, 4);
+    public OldShield() {
+        super("낡은 방패", 4);
         itemInfo = "낡은 방패이다..\n";
     }
 

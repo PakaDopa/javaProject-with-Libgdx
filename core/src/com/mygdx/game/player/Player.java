@@ -5,6 +5,7 @@ import com.mygdx.game.utils.Global;
 import java.util.List;
 
 public class Player extends Component{
+    protected Inventory inventory;
     protected float[] status;
     public static Player instance = new Player();
     private Player()
@@ -16,12 +17,19 @@ public class Player extends Component{
         status[PlayerStatus.MP.getInd()] = Global.PLAYER_MAX_MP;
         status[PlayerStatus.DAMAGE.getInd()] = Global.PLAYER_DEFAULT_DAMAGE;
 
-        containers.add(new Inventory(this));
+        inventory = new Inventory(this);
+        containers.add(inventory);
+
         //containers.add(new Skill(this));
     }
-
-    public void setStatus(Integer ind, float value)
+    public String setStatus(Integer ind, float value)
     {
+        String token =
+        //값 적용
         status[ind] += value;
+    }
+    public Inventory getInven()
+    {
+        return inventory;
     }
 }

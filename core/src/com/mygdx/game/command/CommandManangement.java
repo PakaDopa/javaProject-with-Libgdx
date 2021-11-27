@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandManangement{
+    //==========
+    private final String itemUseCommand = "/inventory use ";
+    private final String itemUnUseCommand = "/inventory take-off ";
+
     private Map<String, CommandType> commandMap = new HashMap<>();
     // singleTon [Non-Safely multi Thread]
     public static CommandManangement instance = new CommandManangement();
@@ -14,6 +18,7 @@ public class CommandManangement{
 
         addCommand("/?", CommandType.INFO_ALL);
         addCommand("/inventory ?", CommandType.INFO_INVENTORY);
+        //addCommand("/inventory use {itemName}", CommandType.INVENTOTY);
         addCommand("/skill ?", CommandType.INFO_SKILL);
 
         addCommand("/yes", CommandType.YES);
@@ -27,17 +32,16 @@ public class CommandManangement{
     public void addCommand(String command, CommandType type)
     {
         commandMap.put(command, type);
-        /*
-        * /?
-        * /inventory
-        * /use
-        * /move to 1
-        * /move to 2
-        * /move back
-        * /item use "~"
-        * /skill use "~"
-        * /skill
-        * /*/
+    }
+    public void addItemAddCommand(String name)
+    {
+        commandMap.put(String.format(itemUseCommand + "%s", name), CommandType.INVENTORY_ITEM_EQUIP);
+        commandMap.put(String.format(itemUnUseCommand + "%s", name), CommandType.INVENTORY_ITEM_UNEQUIP);
+    }
+    public void removeItemAddCommand(String name)
+    {
+        String key = String.format(itemUseCommand + "%s", name);
+        commandMap.remove(key);
     }
 
     public CommandType parsingCommandType(String rowCommandText)

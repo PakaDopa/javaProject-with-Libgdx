@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Component{
-    protected Component parent;
+    public Component parent;
     protected List<Component> containers;
 
     public Component(Component parent)

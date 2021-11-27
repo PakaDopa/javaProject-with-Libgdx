@@ -10,6 +10,7 @@ public abstract class BaseItem {
         this.type = type;
     }
     public String getName() {return name;}
+    public ItemType getType() {return type;}
     public String getDropMessage()
     {
         String token = "System: 아이템 '" + name + "'을 드랍 했습니다. \n";

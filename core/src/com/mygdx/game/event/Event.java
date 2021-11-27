@@ -2,6 +2,8 @@ package com.mygdx.game.event;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.command.CommandType;
+import com.mygdx.game.event.Compensation.Result;
+import com.mygdx.game.event.Compensation.item.ItemFactory;
 import com.mygdx.game.event.type.EventType;
 import com.mygdx.game.event.type.EventTypeInterface;
 import com.mygdx.game.textbox.TextBox;
@@ -24,29 +26,16 @@ public enum Event implements EventInterface {
             lineMakers.add(new LineMaker("???:..그래서 들어가겠는가? [/yes, /no] ", EventType.SELECT, CommandType.YES, CommandType.NO));
         }
     },
-    BURNING //불이 덮쳤다. HP - 10!
+    FIND_BOX
     {
-        //불길에 덮여서 화상을 입음.
         @Override
-        public void create()
-        {
+        public void create() {
+            Result boxResult = new Result();
+            boxResult.add(ItemFactory.getItem("Sword"));
 
-        }
-    },
-    FIND_WATER //마나를 회복한다. MP + 10!
-    {
-        @Override
-        public void create()
-        {
-
-        }
-    },
-    SELECT_MAP
-    {
-        String token, token_1, token_2;
-        @Override
-        public void create()
-        {
+            lineMakers = new ArrayList<>();
+            lineMakers.add(new LineMaker("어두운 길을 더듬어 내려가다 상자를 발견했다.", EventType.PRINTING));
+            lineMakers.add(new LineMaker("어떻게 할까?? [/yes, /no]]", EventType.SELECT, boxResult));
         }
     };
 

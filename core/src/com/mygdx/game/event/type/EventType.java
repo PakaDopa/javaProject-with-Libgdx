@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.mygdx.game.command.CommandManangement;
 import com.mygdx.game.command.CommandType;
 import com.mygdx.game.event.LineMaker;
+import com.mygdx.game.player.Player;
+import com.mygdx.game.player.PlayerStatus;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.textbox.TextInputBox;
 
@@ -39,7 +41,7 @@ public enum EventType implements EventTypeInterface{
                 {
                     //결과를 얻을 수 있음.
                     //return new EventTypeResult();
-                    return DONE;
+                    return RESULT;
                 }
                 if(parserType == line.needCommandType[1])
                 {
@@ -61,8 +63,23 @@ public enum EventType implements EventTypeInterface{
     },
     RESULT("RESULT")
     {
+        boolean isOneTime = false;
         @Override
-        public EventType update(LineMaker line) {
+        public EventType update(LineMaker line)
+        {
+            if(!isOneTime) {
+                for (int i = 0; i < line.result.getItemList().size(); i++) {
+
+                }
+                for (int i = 0; i < line.result.getStatusList().size(); i++) {
+                    PlayerStatus status = line.result.getStatusList().get(i).getX();
+                    float value = line.result.getStatusList().get(i).getY();
+
+                    Player.instance.setStatus(status.getInd(), value);
+
+                }
+                isOneTime = true;
+            }
             return DONE;
         }
     },

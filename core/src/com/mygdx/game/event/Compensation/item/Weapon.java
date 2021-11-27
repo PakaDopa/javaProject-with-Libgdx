@@ -36,9 +36,9 @@ public abstract class Weapon extends BaseItem{
 
 class Sword extends Weapon
 {
-    public Sword(String name)
+    public Sword()
     {
-        super(name, 2, 0f);
+        super("낡은 검", 2, 0f);
         itemInfo = "낡은 검이다.\n";
     }
 
