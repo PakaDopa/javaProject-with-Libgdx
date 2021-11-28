@@ -11,6 +11,7 @@ public class EventNode{
     public EventType eventType;
     public EventNode leftNode;
     public EventNode rightNode;
+    public boolean isVisit = false;
 
     //===
     public Result result;

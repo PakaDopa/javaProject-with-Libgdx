@@ -22,13 +22,13 @@ public enum Event implements EventInterface {
         @Override
         public void create(StageNode stageNode)
         {
-            currentNode = new EventNode("던전의 스산한 기분이 들까말까", EventType.PRINTING, stageNode); //root Node
-            EventNode node1 = new EventNode("던전에 들어가시겠습니까?", EventType.PRINTING);
-            EventNode node2 = new EventNode("", EventType.RESULT, new Result(ItemFactory.getItem("Sword")));
-            EventNode node3 = new EventNode("\nSystem: '/yes' or '/no'", EventType.SELECT);
+            currentNode = new EventNode("(우르르쾅쾅).. 투명 드래곤이 울부짖었다.", EventType.PRINTING, stageNode); //root Node
+            EventNode node1 = new EventNode("....하지만.. 투명드래곤은 투명해서.. 보이지 않았다.", EventType.PRINTING);
+            EventNode node2 = new EventNode("..여름이었다.", EventType.RESULT, new Result(ItemFactory.getItem("Sword")));
+            EventNode node3 = new EventNode("'/yes' or '/no'", EventType.SELECT);
 
-            EventNode node_yes = new EventNode("System: 던전에 기쁜 마음으로 들어갑니다.", EventType.END_PRINTING);
-            EventNode node_no = new EventNode("System: ...그래도 들어가야해요!", EventType.END_PRINTING);
+            EventNode node_yes = new EventNode("던전 입구로 발을 옮겼다.", EventType.END_PRINTING);
+            EventNode node_no = new EventNode("역시 던전 입구로 발을 옮겼다.", EventType.END_PRINTING);
 
             currentNode.link(node1);
             node1.link(node2);
@@ -47,7 +47,7 @@ public enum Event implements EventInterface {
             EventNode node2 = new EventNode("System: '/yes' or '/no'", EventType.SELECT);
 
             EventNode node_yes = new EventNode("상자에서 불길이 치솟아 나를 덮쳤다.", EventType.RESULT,
-                    new Result(new Pair<PlayerStatus, Float>(PlayerStatus.HP, (float)random.nextInt(25))));
+                    new Result(new Pair<PlayerStatus, Float>(PlayerStatus.HP, -(float)random.nextInt(10))));
             EventNode node_yes_1 = new EventNode("", EventType.END_PRINTING);
             EventNode node_no = new EventNode("열어보지 않는게 좋겠어.", EventType.END_PRINTING);
 

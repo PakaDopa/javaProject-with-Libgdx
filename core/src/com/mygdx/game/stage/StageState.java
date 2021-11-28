@@ -2,12 +2,16 @@ package com.mygdx.game.stage;
 
 import com.mygdx.game.event.Event;
 import com.mygdx.game.event.type.EventType;
+import com.mygdx.game.textbox.TextBox;
 
 public enum StageState implements StageStateInterface{
     INIT{
         @Override
         public StageState update(StageNode node, float dt) {
-            System.out.println("START EVENT");
+            TextBox.instance.setDirect("========================[" + node.stageDeath + "-" + node.stageDirection + "]=========================");
+            if(node.isVisit)
+                return END;
+            node.isVisit = true;
             node.getEvent().create(node);
             return ING;
         }
@@ -32,6 +36,7 @@ public enum StageState implements StageStateInterface{
             {
                 isOneTime = true;
                 rest.create(node);
+                TextBox.instance.setDirect("===================[COMMAND_ZONE]========================");
             }
             EventType result = rest.update(dt);
             if(result == EventType.MOVE_BACK){

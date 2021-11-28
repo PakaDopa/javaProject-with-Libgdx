@@ -72,9 +72,12 @@ public class Inventory extends Component{
             itemType = ItemType.ARMOR;
         if(equipItem[itemType.getValue()] == null)
             TextBox.instance.setDirect("해제 할 아이템이 없습니다.");
-        else
+        else{
+            equipItem[itemType.getValue()].unequipItem();
             TextBox.instance.setDirect(equipItem[itemType.getValue()].getName() + "을" +
                     "가방에 집에 넣었습니다.");
+            equipItem[itemType.getValue()] = null;
+        }
         return false;
     }
     public void showItemInfo(String token)

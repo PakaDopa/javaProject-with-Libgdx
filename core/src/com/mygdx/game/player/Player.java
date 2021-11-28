@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.utils.Global;
 
-import javax.swing.text.Utilities;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -53,11 +52,10 @@ public class Player extends Component{
     public void showStatus()
     {
         Iterator<String> keys = status.keySet().iterator();
-
-        TextBox.instance.setDirect("");
         while(keys.hasNext())
         {
             String key = keys.next();
+
             TextBox.instance.setDirect("    " + key + ":" + status.get(key));
         }
         TextBox.instance.setDirect("");

@@ -55,7 +55,8 @@ public class GameUtils {
         //시작 이벤트 셋팅
         StageNode rootNode = new StageNode(null);
         rootNode.setEvent(Event.STAGE_ROOT);
-
+        rootNode.stageDeath = 1;
+        rootNode.stageDirection = 1;
         Queue<StageNode> q = new LinkedList<StageNode>();
         q.add(rootNode);
 
@@ -71,6 +72,7 @@ public class GameUtils {
             {
                 StageNode newNode = new StageNode(currentNode);
                 newNode.setEvent(selectEvent(eventList));
+                newNode.setStageName(1);
                 currentNode.leftNode = newNode;
                 q.add(newNode);
                 stageNum--;
@@ -79,6 +81,7 @@ public class GameUtils {
             {
                 StageNode newNode = new StageNode(currentNode);
                 newNode.setEvent(selectEvent(eventList));
+                newNode.setStageName(2);
                 currentNode.rightNode = newNode;
                 q.add(newNode);
                 stageNum--;

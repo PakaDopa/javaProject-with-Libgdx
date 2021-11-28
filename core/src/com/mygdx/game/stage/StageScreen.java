@@ -4,9 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.crashinvaders.vfx.VfxManager;
+import com.crashinvaders.vfx.effects.FilmGrainEffect;
+import com.crashinvaders.vfx.effects.OldTvEffect;
+import com.crashinvaders.vfx.effects.VignettingEffect;
 import com.mygdx.game.base.BaseActor;
 import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.event.Event;
@@ -25,9 +30,16 @@ public class StageScreen extends BaseScreen {
     StageNode stageNode;
     StageState stageState;
 
+    VfxManager vfxManager;
     public StageScreen(Game game, List<Pair<Integer, Event>> events) {
         super(game);
         create(events);
+
+        vfxManager = new VfxManager(Pixmap.Format.RGBA8888);
+
+        //vfxManager.addEffect(new OldTvEffect());
+        vfxManager.addEffect(new FilmGrainEffect());
+        vfxManager.addEffect(new VignettingEffect(false));
     }
 
     public void create(List<Pair<Integer, Event>> events)
@@ -56,6 +68,9 @@ public class StageScreen extends BaseScreen {
     }
     @Override
     public void render(float dt) {
+        vfxManager.cleanUpBuffers();
+        vfxManager.beginInputCapture();
+
         //Image Clear
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -86,5 +101,11 @@ public class StageScreen extends BaseScreen {
         //draw and act TextInputBox, TextBox
         TextInputBox.instance.render(dt);
         TextBox.instance.render(dt);
+
+        vfxManager.update(dt);
+
+        vfxManager.endInputCapture();
+        vfxManager.applyEffects();
+        vfxManager.renderToScreen();
     }
 }

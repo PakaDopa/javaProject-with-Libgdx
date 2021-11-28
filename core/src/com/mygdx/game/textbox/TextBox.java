@@ -47,11 +47,12 @@ public class TextBox {
         initTypingLabel();
 
         textBox = new ScrollPane(log);
-        textBox.setFlickScroll(true);
+        textBox.setFlickScroll(false);
         textBox.setForceScroll(true, false);
         textBox.setPosition(15,80);
         textBox.setWidth(420);
         textBox.setHeight(225);
+        //textBox.set
 
         stage.addActor(textBox);
         stage.addActor(text);
@@ -76,6 +77,7 @@ public class TextBox {
         text.setText(token);
         log.setText(buffer);
         buffer += token;
+        textBox.scrollTo(0, 0, 0, 0);
     }
     public void setDirect(String token)
     {
