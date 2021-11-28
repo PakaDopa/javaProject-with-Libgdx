@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.crashinvaders.vfx.VfxManager;
-import com.crashinvaders.vfx.effects.FilmGrainEffect;
-import com.crashinvaders.vfx.effects.OldTvEffect;
-import com.crashinvaders.vfx.effects.VignettingEffect;
+import com.crashinvaders.vfx.effects.*;
 import com.mygdx.game.base.BaseActor;
 import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.event.Event;
@@ -39,6 +37,7 @@ public class StageScreen extends BaseScreen {
 
         //vfxManager.addEffect(new OldTvEffect());
         vfxManager.addEffect(new FilmGrainEffect());
+        vfxManager.addEffect(new BloomEffect());
         vfxManager.addEffect(new VignettingEffect(false));
     }
 
