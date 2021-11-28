@@ -1,7 +1,9 @@
 package com.mygdx.game.event.Compensation.item;
 
+import com.mygdx.game.command.CommandManangement;
 import com.mygdx.game.player.Player;
 import com.mygdx.game.player.PlayerStatus;
+import com.mygdx.game.textbox.TextBox;
 
 public abstract class Weapon extends BaseItem{
     protected int damage;
@@ -18,19 +20,21 @@ public abstract class Weapon extends BaseItem{
     public void unequipItem() {
         Player.instance.setStatus(PlayerStatus.DAMAGE.getKey(), -damage);
         Player.instance.setStatus(PlayerStatus.COMMAND_DELAY.getKey(), -plusCommandDelay);
+        TextBox.instance.setDirect("    [!]" + name + "을/를 가방에 넣습니다.");
     }
     @Override
     public void equipItem() {
         Player.instance.setStatus(PlayerStatus.DAMAGE.getKey(), damage);
-        Player.instance.setStatus(PlayerStatus.DAMAGE.getKey(), plusCommandDelay);
+        Player.instance.setStatus(PlayerStatus.SKILL_DAMAGE.getKey(), plusCommandDelay);
+        TextBox.instance.setDirect("    [!]" + name + "을/를 손에 쥐었습니다.");
     }
     @Override
-    public String showItemInfo() {
+    public void showItemInfo() {
         String token =
                         itemInfo +
                         "    [!]데미지 +" + damage + "\n" +
                         "    [!]커맨드 딜레이 +" + plusCommandDelay + "\n";
-        return token;
+        TextBox.instance.setDirect(token);
     }
 }
 

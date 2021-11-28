@@ -17,13 +17,5 @@ public class StageNode {
         this.event = event;
     }
     public Event getEvent() {return this.event;}
-    public void linkLeft(StageNode leftNode)
-    {
-        this.leftNode = leftNode;
-    }
-    public void linkRight(StageNode rightNode)
-    {
-        this.rightNode = rightNode;
-    }
 
 }

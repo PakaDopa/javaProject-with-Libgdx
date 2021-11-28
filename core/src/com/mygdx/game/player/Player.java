@@ -6,6 +6,7 @@ import com.mygdx.game.utils.Global;
 
 import javax.swing.text.Utilities;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Player extends Component{
@@ -49,6 +50,19 @@ public class Player extends Component{
         TextBox.instance.setDirect(token);
         status.put(key, sum);
     }
+    public void showStatus()
+    {
+        Iterator<String> keys = status.keySet().iterator();
+
+        TextBox.instance.setDirect("");
+        while(keys.hasNext())
+        {
+            String key = keys.next();
+            TextBox.instance.setDirect("    " + key + ":" + status.get(key));
+        }
+        TextBox.instance.setDirect("");
+    }
+
     public Inventory getInven()
     {
         return inventory;

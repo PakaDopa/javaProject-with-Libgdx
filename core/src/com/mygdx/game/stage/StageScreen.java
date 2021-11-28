@@ -53,7 +53,6 @@ public class StageScreen extends BaseScreen {
         Gdx.input.setInputProcessor(im);
 
         event = Event.STAGE_ROOT;
-        event.create();
     }
     @Override
     public void render(float dt) {
@@ -66,6 +65,23 @@ public class StageScreen extends BaseScreen {
         stage.draw();
 
         stageState = stageState.update(stageNode, dt);
+        System.out.println(stageNode.hashCode());
+        if(stageState == StageState.MOVE_BACK)
+        {
+            stageNode = stageNode.parentNode;
+            stageState = StageState.INIT;
+        }
+        else if(stageState == StageState.MOVE_LEFT){
+            System.out.println(stageNode.toString());
+            stageNode = stageNode.leftNode;
+            stageState = StageState.INIT;
+        }
+        else if(stageState == StageState.MOVE_RIGHT)
+        {
+            System.out.println(stageNode.toString());
+            stageNode = stageNode.rightNode;
+            stageState = StageState.INIT;
+        }
 
         //draw and act TextInputBox, TextBox
         TextInputBox.instance.render(dt);

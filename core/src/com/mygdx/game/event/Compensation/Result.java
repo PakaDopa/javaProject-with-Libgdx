@@ -30,7 +30,7 @@ public class Result {
         }
         else if(rewardItem != null)
         {
-            Player.instance.getInven().addItem(rewardItem);
+            Player.instance.getInven().addItem(rewardItem, true);
         }
     }
 }

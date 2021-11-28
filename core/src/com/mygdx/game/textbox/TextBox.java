@@ -48,6 +48,7 @@ public class TextBox {
 
         textBox = new ScrollPane(log);
         textBox.setFlickScroll(true);
+        textBox.setForceScroll(true, false);
         textBox.setPosition(15,80);
         textBox.setWidth(420);
         textBox.setHeight(225);
@@ -96,6 +97,7 @@ public class TextBox {
     public boolean isEndPrinting() {return state == PrintState.TEXTING_END;}
     public void render(float dt)
     {
+        textBox.scrollTo(0, 0, 0, 0);
         stage.draw();
         stage.act(dt);
     }

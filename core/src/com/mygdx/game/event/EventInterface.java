@@ -1,9 +1,10 @@
 
 package com.mygdx.game.event;
 
-import com.mygdx.game.command.CommandType;
+import com.mygdx.game.event.type.EventType;
+import com.mygdx.game.stage.StageNode;
 
 public interface EventInterface {
-    void create();
-    boolean update(float dt);
+    void create(StageNode stageNode);
+    EventType update(float dt);
 }
