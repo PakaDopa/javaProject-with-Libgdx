@@ -188,22 +188,19 @@ public enum EventType implements EventTypeInterface{
             return this;
         }
     },
-    DONE_LEFT("DONE_LEFT")
-    {
+    DONE_LEFT("DONE_LEFT") {
         @Override
         public EventType update(EventNode currentNode) {
             return this;
         }
     },
-    DONE_RIGHT("DONE_RIGHT")
-    {
+    DONE_RIGHT("DONE_RIGHT") {
         @Override
         public EventType update(EventNode currentNode) {
             return this;
         }
     },
-    DONE_END("DONE_END")
-    {
+    DONE_END("DONE_END") {
         @Override
         public EventType update(EventNode currentNode) {
             return this;

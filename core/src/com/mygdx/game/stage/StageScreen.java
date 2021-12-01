@@ -78,6 +78,7 @@ public class StageScreen extends BaseScreen {
         stage.act(dt);
         stage.draw();
 
+        //==============
         stageState = stageState.update(stageNode, dt);
         System.out.println(stageNode.hashCode());
         if(stageState == StageState.MOVE_BACK)
@@ -96,6 +97,7 @@ public class StageScreen extends BaseScreen {
             stageNode = stageNode.rightNode;
             stageState = StageState.INIT;
         }
+        //==============
 
         //draw and act TextInputBox, TextBox
         TextInputBox.instance.render(dt);

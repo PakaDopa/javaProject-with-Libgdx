@@ -54,9 +54,9 @@ public class GameUtils {
     {
         //시작 이벤트 셋팅
         StageNode rootNode = new StageNode(null);
-        rootNode.setEvent(Event.STAGE_ROOT);
-        rootNode.stageDeath = 1;
-        rootNode.stageDirection = 1;
+        rootNode.setEvent(Event.STAGE_ROOT); //1번 이벤트
+        rootNode.stageDeath = 1; //
+        rootNode.stageDirection = 1; //왼쪽은 1, 오른쪽은 2
         Queue<StageNode> q = new LinkedList<StageNode>();
         q.add(rootNode);
 

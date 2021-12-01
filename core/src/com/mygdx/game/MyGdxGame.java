@@ -17,9 +17,11 @@ public class MyGdxGame extends Game {
 
 		//이벤트 리스트
 		//Waring: event percent는 총 합 100이 되도록 하는게 좋다. [QA 쉬워짐]
+
+		//Event가 스테이지 트리에, Integer 퍼센트 확률로 생성됨.
 		List<Pair<Integer, Event>> events = new ArrayList<>();
-		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_SWORD));
-		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_FIRE));
+		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_SWORD)); //[50%로 생성] 아이템을 찾는 상자 이벤트
+		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_FIRE)); //[50%로 생성] 데미지를 입는 상자 이벤트
 
 		//StageScreen firstStage = StageManangerment.instance.stageList.get(0);
 		setScreen(new StageScreen(this, events));

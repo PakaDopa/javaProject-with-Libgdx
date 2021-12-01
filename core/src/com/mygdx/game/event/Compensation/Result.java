@@ -5,9 +5,6 @@ import com.mygdx.game.player.Player;
 import com.mygdx.game.player.PlayerStatus;
 import com.mygdx.game.utils.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Result {
 
     Pair<PlayerStatus, Float> rewardStatus;

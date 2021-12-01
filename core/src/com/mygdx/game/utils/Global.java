@@ -49,7 +49,5 @@ public class Global {
                 false);
         LABELSTYLE = new LabelStyle(FONT, null);
         TEXTFIELDSTYLE = new TextFieldStyle(FONT, Color.WHITE, null, null, null);
-
-
     }
 }

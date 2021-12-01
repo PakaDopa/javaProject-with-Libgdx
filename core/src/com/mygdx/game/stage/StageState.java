@@ -29,7 +29,7 @@ public enum StageState implements StageStateInterface{
         }
     },
     END{
-        Event rest = Event.REST;
+        Event rest = Event.REST; //커맨드 존
         @Override
         public StageState update(StageNode node, float dt) {
             if(!isOneTime)
@@ -39,15 +39,18 @@ public enum StageState implements StageStateInterface{
                 TextBox.instance.setDirect("===================[COMMAND_ZONE]========================");
             }
             EventType result = rest.update(dt);
-            if(result == EventType.MOVE_BACK){
+            if(result == EventType.MOVE_BACK)
+            {
                 isOneTime = false;
                 return MOVE_BACK;
             }
-            else if(result == EventType.MOVE_LEFT){
+            else if(result == EventType.MOVE_LEFT)
+            {
                 isOneTime = false;
                 return MOVE_LEFT;
             }
-            else if(result == EventType.MOVE_RIGHT){
+            else if(result == EventType.MOVE_RIGHT)
+            {
                 isOneTime = false;
                 return MOVE_RIGHT;
             }
@@ -75,7 +78,6 @@ public enum StageState implements StageStateInterface{
             return this;
         }
     };
-
 
     boolean isOneTime = false;
 }

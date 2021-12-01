@@ -27,7 +27,6 @@ public class Player extends Component{
 
         inventory = new Inventory(this);
         containers.add(inventory);
-
         //containers.add(new Skill(this));
     }
     public void setStatus(String key, float value)
