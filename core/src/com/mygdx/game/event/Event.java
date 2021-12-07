@@ -385,19 +385,30 @@ public enum Event implements EventInterface {
 
             node_yes.link(node_yes_1);
         }
-    };
+    },
+    ENDING(1)
+    {
+        @Override
+        public void create(StageNode stageNode)
+        {
+            currentNode = new EventNode("여..기가 던전의 끝?", EventType.PRINTING, stageNode); //root Node
+            EventNode node1 = new EventNode("생각보다 내부는 넓군", EventType.PRINTING); //root Node
+            EventNode node2 = new EventNode("....돌아가자", EventType.END_PRINTING); //root Node
 
+            currentNode.link(node1);
+            node1.link(node2);
+        }
+    };
     @Override
     public EventType update(float dt)
     {
-        //if(eventOver) return EventType.DONE_END;
 
         EventType type = currentNode.eventType.update(currentNode);
         if (type == EventType.DONE_END)
         {
             TextBox.instance.setText("");
-            //TextInputBox.instance.setDefault();
-            //eventOver = true;
+            currentNode.eventType.setIsOneTime(false);
+            TextInputBox.instance.setDefault();
         }
         else if(type == EventType.PLAYER_DIE)
         {
@@ -419,8 +430,6 @@ public enum Event implements EventInterface {
     }
 
     protected EventNode currentNode;
-    protected boolean eventOver = false;
-
     //
     private final int level;
     Event(int level) { this.level = level;}

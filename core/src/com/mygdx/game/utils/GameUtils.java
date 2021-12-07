@@ -60,7 +60,7 @@ public class GameUtils {
         Queue<StageNode> q = new LinkedList<StageNode>();
         q.add(rootNode);
 
-        while(stageNum > 0)
+        while(true)
         {
             StageNode currentNode = q.poll();
             if(currentNode == null)
@@ -76,6 +76,12 @@ public class GameUtils {
                 currentNode.leftNode = newNode;
                 q.add(newNode);
                 stageNum--;
+
+                if(stageNum == 0)
+                {
+                    newNode.setEvent(Event.ENDING);
+                    break;
+                }
             }
             if(isCreateRight && currentNode.rightNode == null)
             {
@@ -85,8 +91,13 @@ public class GameUtils {
                 currentNode.rightNode = newNode;
                 q.add(newNode);
                 stageNum--;
-            }
 
+                if(stageNum == 0)
+                {
+                    newNode.setEvent(Event.ENDING);
+                    break;
+                }
+            }
             if(!isCreateLeft && !isCreateRight)
                 q.add(currentNode); //재시도
         }
