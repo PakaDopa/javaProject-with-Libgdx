@@ -1,6 +1,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.mygdx.game.event.Event;
+import com.mygdx.game.player.Player;
 import com.mygdx.game.stage.StageScreen;
 import com.mygdx.game.utils.Global;
 import com.mygdx.game.utils.Pair;
@@ -17,16 +18,30 @@ public class MyGdxGame extends Game {
 
 		//이벤트 리스트
 		//Waring: event percent는 총 합 100이 되도록 하는게 좋다. [QA 쉬워짐]
-
-		//Event가 스테이지 트리에, Integer 퍼센트 확률로 생성됨.
+		//이벤트의 진행여부를 플레이어가 선택할 수 있음 (yes/no)
 		List<Pair<Integer, Event>> events = new ArrayList<>();
-		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_SWORD)); //[50%로 생성] 아이템을 찾는 상자 이벤트
-		events.add(new Pair<Integer, Event>(50, Event.FIND_BOX_TYPE_GET_FIRE)); //[50%로 생성] 데미지를 입는 상자 이벤트
+		events.add(new Pair<Integer, Event>(5, Event.FIND_BOX_TYPE_GET_SWORD));
+		events.add(new Pair<Integer, Event>(5, Event.FIND_BOX_TYPE_GET_FIRE));
+		events.add(new Pair<Integer, Event>(5, Event.FIND_WATER_DROWN));
+		events.add(new Pair<Integer, Event>(5, Event.FIND_WATER_GET_HEAL));
+		events.add(new Pair<Integer, Event>(5, Event.LOOK_HEAL_TREE));
+		events.add(new Pair<Integer, Event>(7, Event.ROCK_SLIDE_AREA_DAMAGE));
+		events.add(new Pair<Integer, Event>(7, Event.ROCK_SLIDE_AREA_GET));
+		events.add(new Pair<Integer, Event>(7, Event.FINE_BONFIRE));
+		events.add(new Pair<Integer, Event>(8, Event.LOOK_THORNBUSH));
+
+		events.add(new Pair<Integer, Event>(5, Event.MEET_BAT_ATTACK));
+		events.add(new Pair<Integer, Event>(5, Event.MEET_SPIDER_GET_WEB));
+		events.add(new Pair<Integer, Event>(7, Event.MEET_ALLIGATOR));
+		events.add(new Pair<Integer, Event>(8, Event.ENCOUNTER_MURLOC));
+
+		events.add(new Pair<Integer, Event>(10, Event.NO_GET_EXCALIBUR));
+		events.add(new Pair<Integer, Event>(3, Event.GET_EXCALIBUR));
+
+
 
 		//StageScreen firstStage = StageManangerment.instance.stageList.get(0);
 		setScreen(new StageScreen(this, events));
-
-		//TestScript test = new TestScript(this);
-		//setScreen(test);
 	}
+
 }

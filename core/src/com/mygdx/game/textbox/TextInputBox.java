@@ -50,7 +50,7 @@ public class TextInputBox implements InputProcessor {
         setText("");
         setVisible(false);
     }
-    public void render(float dt)
+    public void update(float dt)
     {
         stage.act(dt);
         stage.draw();

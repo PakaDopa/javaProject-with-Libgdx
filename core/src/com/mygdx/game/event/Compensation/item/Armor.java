@@ -36,11 +36,24 @@ public abstract class Armor extends BaseItem{
     }
 }
 
-class OldShield extends Armor
+class StoneShield extends Armor
 {
-    public OldShield() {
-        super("낡은 방패", 4, 0);
-        itemInfo = name + ": 낡은 방패이다..\n";
+    public StoneShield() {
+        super("돌 방패", 4, 0);
+        itemInfo = name + ": 돌 방패이다.\n";
+    }
+
+    @Override
+    public void passive() {
+
+    }
+}
+
+class Armour extends Armor
+{
+    public Armour() {
+        super("갑옷", 10, 0);
+        itemInfo = name + ": 갑옷이다.\n";
     }
 
     @Override

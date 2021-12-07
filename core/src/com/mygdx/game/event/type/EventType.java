@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.game.command.CommandManangement;
 import com.mygdx.game.command.CommandType;
+import com.mygdx.game.enemy.BattleManagement;
 import com.mygdx.game.event.EventNode;
 import com.mygdx.game.player.Player;
+import com.mygdx.game.player.PlayerStatus;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.textbox.TextInputBox;
 
@@ -156,8 +158,50 @@ public enum EventType implements EventTypeInterface{
     BATTLE("BATTLE")
     {
         @Override
-        public EventType update(EventNode currentNode) {
-            return null;
+        public EventType update(EventNode currentNode)
+        {
+            String enemyName = currentNode.enemy.name;
+            if(!isOneTime)
+            {
+                //적을 만난다
+                TextInputBox.instance.setVisible(true);
+                TextInputBox.instance.setText("");
+
+                BattleManagement.instance.settingEnemy(currentNode.enemy);
+                TextBox.instance.setDirect(enemyName + "와 전투를 시작합니다.");
+                isOneTime = true;
+            }
+            else
+            {
+                if(Player.instance.getStatus(PlayerStatus.HP.getKey()) <= 0)
+                    return PLAYER_DIE;
+
+                if(currentNode.enemy.isDead())
+                {
+                    TextBox.instance.setDirect(enemyName + "을 물리쳤다!");
+                    return DONE_LEFT;
+                }
+
+                if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)
+                        && TextBox.instance.isEndPrinting())
+                {
+                    String token = TextInputBox.instance.getText();
+                    CommandType parserType = CommandManangement.instance.parsingCommandType(token);
+                    TextBox.instance.setDirect(token);
+                    float damage = 0;
+                    switch(parserType)
+                    {
+                        case ATTACK:
+                            damage = Player.instance.getStatus(PlayerStatus.DAMAGE.getKey());
+                            damage = 50;
+                            currentNode.enemy.setHP(-damage);
+                            TextBox.instance.setDirect(currentNode.enemy.name + "에게 " + damage + "피해를 입혔습니다.");
+                            TextBox.instance.setDirect(currentNode.enemy.name + "의 남은 체력: " + currentNode.enemy.hp);
+                            break;
+                    }
+                }
+            }
+            return DONE_YET;
         }
     },
     RESULT("RESULT")
@@ -167,6 +211,8 @@ public enum EventType implements EventTypeInterface{
         {
             TextBox.instance.setDirect(currentNode.token);
             currentNode.result.applyReward();
+            if(Player.instance.getStatus(PlayerStatus.HP.getKey()) <= 0)
+                return PLAYER_DIE;
             return DONE_LEFT;
         }
     },
@@ -207,6 +253,13 @@ public enum EventType implements EventTypeInterface{
         }
     },
     DONE_YET("DONE_YET") {
+        @Override
+        public EventType update(EventNode currentNode) {
+            return this;
+        }
+    },
+    PLAYER_DIE("PLAYER_DIE")
+    {
         @Override
         public EventType update(EventNode currentNode) {
             return this;

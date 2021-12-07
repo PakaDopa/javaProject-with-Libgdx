@@ -4,7 +4,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.sound.SoundMananger;
 import com.mygdx.game.textbox.state.PrintState;
@@ -104,7 +103,7 @@ public class TextBox {
         log.setText(buffer);
     }
     public boolean isEndPrinting() {return state == PrintState.TEXTING_END;}
-    public void render(float dt)
+    public void update(float dt)
     {
         textBox.scrollTo(0, 0, 0, 0);
         stage.draw();

@@ -1,8 +1,10 @@
 package com.mygdx.game.base;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public class BaseCharacter extends BaseActor{
-    int maxHp, maxMp, hp, mp;
-    float attackDelay;
+    public float maxHp, maxMp, hp, mp;
+    public float attackDelay;
     public BaseCharacter(int maxHp, int maxMp, float attackDelay)
     {
         super();
@@ -14,5 +16,13 @@ public class BaseCharacter extends BaseActor{
 
         hp = maxHp;
         mp = maxHp;
+    }
+    public boolean isDead()
+    {
+        return hp <= 0;
+    }
+    public void setHP(float hp)
+    {
+        this.hp = MathUtils.clamp(this.hp + hp, 0, maxHp);
     }
 }

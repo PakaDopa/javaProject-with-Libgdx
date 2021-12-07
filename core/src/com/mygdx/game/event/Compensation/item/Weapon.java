@@ -31,7 +31,7 @@ public abstract class Weapon extends BaseItem{
     @Override
     public void showItemInfo() {
         String token =
-                        itemInfo +
+                itemInfo +
                         "    [!]데미지 +" + damage + "\n" +
                         "    [!]커맨드 딜레이 +" + plusCommandDelay + "\n";
         TextBox.instance.setDirect(token);
@@ -42,8 +42,38 @@ class Sword extends Weapon
 {
     public Sword()
     {
-        super("낡은 검", 2, 0f);
+        super("낡은 검", 10, 0f);
         itemInfo = "낡은 검이다.\n";
+    }
+
+
+
+    @Override
+    public void passive() {
+
+    }
+}
+
+class spiderWeb extends Weapon
+{
+    public spiderWeb()
+    {
+        super("거미줄", 5, 0f);
+        itemInfo = "거미줄이다.\n";
+    }
+
+    @Override
+    public void passive() {
+
+    }
+}
+
+class Excalibur extends Weapon
+{
+    public Excalibur()
+    {
+        super("엑스칼리버", 50, 0f);
+        itemInfo = "전설의 검 엑스칼리버(이)다.\n";
     }
 
     @Override

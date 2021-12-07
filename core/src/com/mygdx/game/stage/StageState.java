@@ -1,8 +1,11 @@
 package com.mygdx.game.stage;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.event.Event;
 import com.mygdx.game.event.type.EventType;
 import com.mygdx.game.textbox.TextBox;
+
+import java.util.Timer;
 
 public enum StageState implements StageStateInterface{
     INIT{
@@ -24,6 +27,11 @@ public enum StageState implements StageStateInterface{
             {
                 System.out.println("END EVENT");
                 return END;
+            }
+            if(result == EventType.PLAYER_DIE)
+            {
+                System.out.println("END EVENT");
+                return PLAYER_DIE;
             }
             return ING;
         }
@@ -77,7 +85,29 @@ public enum StageState implements StageStateInterface{
             System.out.println(node.event.getClass().getName());
             return this;
         }
+    },
+    PLAYER_DIE
+    {
+        @Override
+        public StageState update(StageNode node, float dt)
+        {
+            if(!isOneTime) {
+                isOneTime = true;
+                TextBox.instance.setDirect("===========================");
+                TextBox.instance.setDirect("...여기서 끝이군..");
+                TextBox.instance.setText("system: 플레이어의 체력이 0 아래로 떨어졌습니다.");
+                TextBox.instance.setText("");
+                TextBox.instance.setText("system: ..게임을 종료합니다.");
+                TextBox.instance.setDirect("===========================");
+            }
+            gamesetTimer += Gdx.graphics.getDeltaTime();
+            if(gamesetTimer >= 3.0f)
+                Gdx.app.exit();
+
+            return this;
+        }
     };
 
+    float gamesetTimer = 0.0f;
     boolean isOneTime = false;
 }

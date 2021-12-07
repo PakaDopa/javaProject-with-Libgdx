@@ -59,7 +59,10 @@ public class Player extends Component{
         }
         TextBox.instance.setDirect("");
     }
-
+    public float getStatus(String key)
+    {
+        return this.status.get(key);
+    }
     public Inventory getInven()
     {
         return inventory;

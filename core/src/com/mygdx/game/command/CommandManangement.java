@@ -41,6 +41,9 @@ public class CommandManangement{
         //PLAYER
         addCommand("/player status", CommandType.STATUS);
         addCommand("/player equip", CommandType.EQUIPT_ITEM);
+
+        //BATTLE
+        addCommand("/attack", CommandType.ATTACK);
     }
 
     public void addCommand(String command, CommandType type)

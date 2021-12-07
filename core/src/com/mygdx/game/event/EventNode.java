@@ -1,5 +1,6 @@
 package com.mygdx.game.event;
 
+import com.mygdx.game.base.BaseEnemy;
 import com.mygdx.game.event.Compensation.Result;
 import com.mygdx.game.event.type.EventType;
 import com.mygdx.game.stage.StageNode;
@@ -15,6 +16,7 @@ public class EventNode{
 
     //===
     public Result result;
+    public BaseEnemy enemy;
 
     public EventNode(String token, EventType eventType)
     {
@@ -38,6 +40,14 @@ public class EventNode{
         this.token = token;
         this.eventType = eventType;
         this.result = result;
+    }
+    public EventNode(String token, EventType eventType, BaseEnemy enemy)
+    {
+        this.leftNode = null;
+        this.rightNode = null;
+        this.token = token;
+        this.eventType = eventType;
+        this.enemy = enemy;
     }
 
     public void link(EventNode node)

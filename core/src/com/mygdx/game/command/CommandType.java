@@ -26,7 +26,8 @@ public enum CommandType {
     INVENTORY_ITEM_UNEQUIP,
 
     //==Skill
-
+    //==BATTLE
+    ATTACK,
     //==ITEM==
 
     //==Player==

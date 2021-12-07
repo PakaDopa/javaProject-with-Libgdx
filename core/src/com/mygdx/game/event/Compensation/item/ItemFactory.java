@@ -5,8 +5,15 @@ public class ItemFactory {
     {
         if(name.equals("Sword"))
             return new Sword();
-        else if(name.equals("OldShield"))
-            return new OldShield();
+        else if(name.equals("spiderWeb"))
+            return new spiderWeb();
+        else if(name.equals("Excalibur"))
+            return new Excalibur();
+        else if(name.equals("StoneShield"))
+            return new StoneShield();
+        else if(name.equals("Armour"))
+            return new Armour();
         return null;
     }
+
 }

@@ -1,9 +1,20 @@
 package com.mygdx.game.base;
 
+import com.mygdx.game.event.Compensation.Result;
+
 public abstract class BaseEnemy extends BaseCharacter{
 
-    public BaseEnemy(int maxHp, int maxMp, float attackDelay) {
+    public String name;
+    public float damage;
+    public Result result;
+    public BaseEnemy(String name, float damage, int maxHp, int maxMp, float attackDelay) {
         super(maxHp, maxMp, attackDelay);
+        this.name = name;
+        this.damage = damage;
     }
-    protected abstract void pattern();
+    public void setResult(Result result)
+    {
+        this.result = result;
+    }
+    public abstract void pattern();
 }

@@ -12,7 +12,9 @@ import com.crashinvaders.vfx.VfxManager;
 import com.crashinvaders.vfx.effects.*;
 import com.mygdx.game.base.BaseActor;
 import com.mygdx.game.base.BaseScreen;
+import com.mygdx.game.enemy.BattleManagement;
 import com.mygdx.game.event.Event;
+import com.mygdx.game.player.Player;
 import com.mygdx.game.textbox.TextBox;
 import com.mygdx.game.textbox.TextInputBox;
 import com.mygdx.game.utils.GameUtils;
@@ -38,12 +40,12 @@ public class StageScreen extends BaseScreen {
         //vfxManager.addEffect(new OldTvEffect());
         vfxManager.addEffect(new FilmGrainEffect());
         vfxManager.addEffect(new BloomEffect());
-        vfxManager.addEffect(new VignettingEffect(false));
+        //vfxManager.addEffect(new VignettingEffect(false));
     }
 
     public void create(List<Pair<Integer, Event>> events)
     {
-        stageState = StageState.INIT;
+        stageState = StageState.INIT; //INIT
 
         List<Event> randomEventList = new ArrayList<>();
         randomEventList = GameUtils.makeShuffleArray(events);
@@ -80,7 +82,6 @@ public class StageScreen extends BaseScreen {
 
         //==============
         stageState = stageState.update(stageNode, dt);
-        System.out.println(stageNode.hashCode());
         if(stageState == StageState.MOVE_BACK)
         {
             stageNode = stageNode.parentNode;
@@ -98,13 +99,12 @@ public class StageScreen extends BaseScreen {
             stageState = StageState.INIT;
         }
         //==============
-
         //draw and act TextInputBox, TextBox
-        TextInputBox.instance.render(dt);
-        TextBox.instance.render(dt);
+        TextInputBox.instance.update(dt);
+        TextBox.instance.update(dt);
+        BattleManagement.instance.update(dt);
 
         vfxManager.update(dt);
-
         vfxManager.endInputCapture();
         vfxManager.applyEffects();
         vfxManager.renderToScreen();
