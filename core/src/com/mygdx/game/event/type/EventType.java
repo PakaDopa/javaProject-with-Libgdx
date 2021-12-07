@@ -131,6 +131,7 @@ public enum EventType implements EventTypeInterface{
                         if(currentNode.stageData.parentNode != null)
                         {
                             TextBox.instance.setDirect("SYSTEM: 왔던 길을 돌아갑니다.");
+                            isOneTime = false;
                             return MOVE_BACK;
                         }
                         break;
@@ -138,6 +139,7 @@ public enum EventType implements EventTypeInterface{
                         if(currentNode.stageData.leftNode != null)
                         {
                             TextBox.instance.setDirect("SYSTEM: 왼쪽 길로 들어섭니다.");
+                            isOneTime = false;
                             return MOVE_LEFT;
                         }
                         break;
@@ -145,6 +147,7 @@ public enum EventType implements EventTypeInterface{
                         if(currentNode.stageData.rightNode != null)
                         {
                             TextBox.instance.setDirect("SYSTEM: 오른쪽 길로 돌아섭니다.");
+                            isOneTime = false;
                             return MOVE_RIGHT;
                         }
                         break;

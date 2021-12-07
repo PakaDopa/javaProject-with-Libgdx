@@ -26,18 +26,10 @@ public enum Event implements EventInterface {
         @Override
         public void create(StageNode stageNode)
         {
-            currentNode = new EventNode("(우르르쾅쾅).. 투명 드래곤이 울부짖었다.", EventType.PRINTING, stageNode); //root Node
-            EventNode node1 = new EventNode("....하지만.. 투명드래곤은 투명해서.. 보이지 않았다.", EventType.PRINTING);
-            EventNode node2 = new EventNode("..여름이었다.", EventType.RESULT, new Result(ItemFactory.getItem("Sword")));
-            EventNode node3 = new EventNode("'/yes' or '/no'", EventType.SELECT);
-
-            EventNode node_yes = new EventNode("던전 입구로 발을 옮겼다.", EventType.END_PRINTING);
-            EventNode node_no = new EventNode("역시 던전 입구로 발을 옮겼다.", EventType.END_PRINTING);
+            currentNode = new EventNode("던전 입구에 선 나는. 다시 한번 각오를 다짐하고", EventType.PRINTING, stageNode); //root Node
+            EventNode node1 = new EventNode("발걸음을 던전 안으로 옮겼다.", EventType.END_PRINTING);
 
             currentNode.link(node1);
-            node1.link(node2);
-            node2.link(node3);
-            node3.link(node_yes, node_no);
         }
     },
     // 상황요소 이벤트
@@ -363,7 +355,8 @@ public enum Event implements EventInterface {
 
             currentNode.link(node1);
             node1.link(node2);
-            node2.link(node_yes, node_no);
+            node2.link(node3);
+            node3.link(node_yes, node_no);
 
             node_yes.link(node_yes_1);
         }
@@ -387,7 +380,8 @@ public enum Event implements EventInterface {
 
             currentNode.link(node1);
             node1.link(node2);
-            node2.link(node_yes, node_no);
+            node2.link(node3);
+            node3.link(node_yes, node_no);
 
             node_yes.link(node_yes_1);
         }
@@ -402,7 +396,7 @@ public enum Event implements EventInterface {
         if (type == EventType.DONE_END)
         {
             TextBox.instance.setText("");
-            TextInputBox.instance.setDefault();
+            //TextInputBox.instance.setDefault();
             //eventOver = true;
         }
         else if(type == EventType.PLAYER_DIE)
