@@ -6,15 +6,16 @@ import com.mygdx.game.utils.Global;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-public class Player extends Component{
+public class Player{
     protected Inventory inventory;
     protected Map<String, Float> status;
+    protected List<Component> containers;
     public static Player instance = new Player();
     private Player()
     {
-        super(null); //최상위 클래스
 
         status = new HashMap<>();
 
@@ -27,7 +28,6 @@ public class Player extends Component{
 
         inventory = new Inventory(this);
         containers.add(inventory);
-        //containers.add(new Skill(this));
     }
     public void setStatus(String key, float value)
     {

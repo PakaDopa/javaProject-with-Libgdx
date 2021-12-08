@@ -13,7 +13,7 @@ public class Inventory extends Component{
     protected Map<String, BaseItem> inventory;
     protected BaseItem[] equipItem;
 
-    public Inventory(Component parent) {
+    public Inventory(Player parent) {
         super(parent);
 
         inventory = new HashMap<>();
