@@ -31,7 +31,7 @@ public class EventNode{
         this.rightNode = null;
         this.stageData = stageData;
         this.token = token;
-        this.eventType = eventType;
+        this.eventType = eventType; 
     }
     public EventNode(String token, EventType eventType, Result result)
     {
